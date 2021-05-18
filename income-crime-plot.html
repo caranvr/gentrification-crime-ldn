@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>MSOA-level crime prevalence and average income, 2018</title>
+<meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
+<!-- google fonts -->
+<link rel="preconnect" href="https://fonts.gstatic.com">
+<link href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&display=swap" rel="stylesheet">
+
+<!--chart libraries-->
+<script charset="utf-8" src="https://d3js.org/d3.v4.min.js"></script>
+<script src="https://code.highcharts.com/highcharts.js"></script>
+<script src="https://code.highcharts.com/highcharts-more.js"></script>
+<script src="https://code.highcharts.com/modules/exporting.js"></script>
+<script src="https://code.highcharts.com/modules/export-data.js"></script>
+<script src="https://code.highcharts.com/modules/accessibility.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/jstat@latest/dist/jstat.min.js"></script>
+
+<style>    
+
+/* layout */
+body {
+  margin: 0;
+  color: #fff;
+  font-family: 'Lato', sans-serif;
+}
+
+#wrapper {
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #31525B;
+}
+
+#container {
+  height: 80%;
+  width: 60vw;
+  align-self: flex-end;
+}
+
+.description {
+  width: 33vw;
+  padding: 20px;
+  align-self: flex-start;
+  font-size: 1.5em;
+  font-weight: 100;
+}
+
+/* chart */
+.highcharts-figure, .highcharts-data-table table {
+    min-width: 310px; 
+    max-width: 800px;
+    margin: 1em auto;
+}
+
+.highcharts-tooltip h3 {
+    margin: 0.3em 0;
+}
+
+.highcharts-data-table table {
+  font-family: Verdana, sans-serif;
+  border-collapse: collapse;
+  border: 1px solid #EBEBEB;
+  margin: 10px auto;
+  text-align: center;
+  width: 100%;
+  max-width: 500px;
+}
+.highcharts-data-table caption {
+    padding: 1em 0;
+    font-size: 1.2em;
+    color: #555;
+}
+.highcharts-data-table th {
+  font-weight: 600;
+    padding: 0.5em;
+}
+.highcharts-data-table td, .highcharts-data-table th, .highcharts-data-table caption {
+    padding: 0.5em;
+}
+.highcharts-data-table thead tr, .highcharts-data-table tr:nth-child(even) {
+    background: #f8f8f8;
+}
+.highcharts-data-table tr:hover {
+    background: #f1f7ff;
+}
+
+
+</style>
+
+</head>
+
+    
+<body>
+
+<div id="wrapper">
+
+  <div id="container"></div>
+  <div class="description">
+    <p>The relationship between the concentration of crime and an area's income differs by the type of crime.</p>
+    <p>Explore how the local concentration of each major crime category relates to area-level income:</p>
+    <div class="custom-select">
+      <select id="crimeMenu">
+        <option value="Burglary">Burglary</option>
+        <option value="Criminal Damage">Criminal Damage</option>
+        <option value="Drugs">Drugs</option>
+        <option value="Robbery">Robbery</option>
+        <option value="Theft and Handling">Theft and Handling</option>
+        <option value="Violence Against the Person">Violence Against the Person</option>
+      </select>
+    </div>
+  </div>
+</div>
+
+<script>
+  d3.csv("data/Crime_LQ_income_2018.csv", function(data) {
+
+    //empty arrays/variables for scatter points and regression line
+    var chartdata = [];
+    var regdata = [];
+    var r;
+
+    //draw chart using chartdata
+    const chart = Highcharts.chart('container', {
+
+    chart: {
+        type: 'bubble',
+        plotBorderWidth: 1,
+        zoomType: 'xy',
+        animation: true,
+        backgroundColor: '#31525B',
+    },
+
+    title: {
+      text:''
+    },
+
+    legend: {
+        enabled: false
+    },
+
+    xAxis: {
+        gridLineWidth: 1,
+        title: {
+            text: 'Mean annual income in 2018 (GBP)',
+            style: {
+              color: '#fff'
+            }
+        },
+        labels: {
+            format: '{value}',
+            style: {
+              color: '#fff'
+            }
+        },
+        gridLineWidth: 0.2
+    },
+
+    yAxis: {
+        startOnTick: false,
+        endOnTick: false,
+        title: {
+            text: 'Location quotient',
+            style: {
+              color: '#fff'
+            }
+        },
+        labels: {
+          style: {
+              color: '#fff'
+            }
+          },
+        maxPadding: 0.2,
+        plotLines: [{
+            color: '#fff',
+            dashStyle: 'dot',
+            width: 2,
+            value: 1,
+            label: {
+                align: 'right',
+                style: {
+                    fontStyle: 'italic',
+                    color: '#fff'
+                },
+                text: 'Citywide proportion of crime in category',
+                x: -10
+            },
+            zIndex: 3
+        }],
+        gridLineWidth: 0.2
+    },
+
+    tooltip: {
+        useHTML: true,
+        headerFormat: '<table>',
+        pointFormat: '<tr><th colspan="2"><h3>{point.name}</h3></th></tr>' +
+            '<tr><th>2018 mean annual income:</th><td>{point.x}</td></tr>' +
+            '<tr><th>Concentration of crime type relative<br>to citywide concentration:</th><td>{point.y:.2f}%</td></tr>' +
+            '<tr><th>Total crime:</th><td>{point.z:.2f}</td></tr>',
+        footerFormat: '</table>',
+        followPointer: true
+    },
+
+    plotOptions: {
+      bubble: {
+            minSize: 5,
+            maxSize: 20,
+            sizeBy: 'width',
+        },
+      line: {
+        lineWidth: 5
+      }
+    },
+
+    series: [{
+        data: chartdata,
+        color: 'rgba(255,161,1,0.15)'
+    },
+    {
+      type: 'line',
+      data: regdata,
+      color: 'rgba(255,161,1,1)',
+      r: r,
+      tooltip: {
+        useHTML: true,
+        pointFormat: '<b>Correlation coefficient:</b> ' + this.r
+      }
+    }]
+
+  });
+
+  //calculate how much more or less concentrated a crime is in one area
+  function getProp(x) {
+      return (x - 1) * 100;
+  }
+
+  //calculate regression line
+  //code adapted from https://www.highcharts.com/blog/tutorials/calculating-and-drawing-a-linear-regression-using-highcharts/
+  function regression(category, income) {
+    //income is an array corresponding to income column, 
+    //category is an array corresponding to column of given crime category
+      let r, sy, sx, b, a, meanX, meanY;
+      r = jStat.corrcoeff(income, category);
+      sy = jStat.stdev(category);
+      sx = jStat.stdev(income);
+      meanY = jStat(category).mean();
+      meanX = jStat(income).mean();
+      b = r * (sy / sx);
+      a = meanY - meanX * b;
+      //Set up a line
+      let x1, x2, y1, y2;
+      x1 = jStat.min(income);
+      console.log(x1);
+      x2 = jStat.max(income);
+      console.log(x2);
+      y1 = a + b * x1;
+      y2 = a + b * x2;
+      return {
+        line: [
+          [x1, y1],
+          [x2, y2]
+        ],
+        r
+      };
+    }
+
+  //set chart data to a certain category
+  function setCrime(category) {
+
+    //reinitialise empty array for chart points
+    chartdata = [];
+
+    //initialise empty arrays for holding regression data
+    regdata = [];
+    catArray = [];
+    incArray = [];
+    
+    console.log(category);
+
+    for(var i = 0; i < data.length; i++) {
+      //location quotient for crime category, processed as the % of citywide proportion of crime in that category
+      var cat = getProp(parseFloat(data[i][category]));
+      //annual income in 2018
+      var inc = parseFloat(data[i]['Total_yearly_income_2018']);
+
+      chartdata.push({x: inc, y: cat, z: parseFloat(data[i]['Total_crime']), name: data[i]['MSOA_name']});
+      catArray.push(cat);
+      incArray.push(inc);
+    }
+
+    //UPDATE POINTS
+    //console.log(chartdata);
+    chart.series[0].setData(chartdata);
+
+    //UPDATE REGRESSION LINE
+    var regObj = regression(catArray, incArray);
+    //console.log(regObj); 
+    regdata = regObj['line']; //array of two points on line
+    r = regObj['r']; //correlation coefficient of line
+
+    //add line to chart
+    chart.series[1].setData(regdata);  
+
+    //view correlation coefficient when you hover over the line
+    chart.series[1].update({
+      tooltip: {
+        pointFormat: '<b>Correlation coefficient</b>: ' + r.toFixed(2)
+      }
+    });
+  }
+
+  //set initial view to burglary
+  setCrime('Burglary');
+
+  //have a function to set the crime category with a button
+  document.getElementById("crimeMenu").onchange = function() {
+    var x = document.getElementById("crimeMenu").value; //get the ID of the option
+    console.log(x);
+    setCrime(x); 
+
+  }
+
+
+});
+
+
+</script>
+
+</body>
+</html>
