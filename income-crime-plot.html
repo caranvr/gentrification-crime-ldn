@@ -23,6 +23,7 @@ body {
   margin: 0;
   color: #fff;
   font-family: 'Lato', sans-serif;
+  box-sizing: border-box;
 }
 
 #wrapper {
@@ -31,20 +32,50 @@ body {
   justify-content: center;
   align-items: center;
   background-color: #31525B;
+  padding: 10px;
 }
 
 #container {
   height: 80%;
   width: 60vw;
-  align-self: flex-end;
 }
 
 .description {
   width: 33vw;
   padding: 20px;
-  align-self: flex-start;
-  font-size: 1.5em;
+  font-size: 1.1em;
   font-weight: 100;
+}
+
+#emphasis {
+  font-weight: 900;
+  font-size: 1.2em;
+}
+
+.custom-select {
+  font-weight: 400;
+}
+
+.button {
+  font-family: 'Lato', sans-serif;
+  background-color: #31525B;
+  border: 1px solid white;
+  border-radius: 10px;
+  color: white;
+  padding: 12px;
+  font-size: 14px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  margin: 4px 2px;
+  cursor: pointer;
+}
+
+.active, .button:hover {
+  background-color: rgba(255,161,1,1);
+  border: 1px solid rgba(255,161,1,1);
+  color: #31525B;
+  font-weight: 400;
 }
 
 /* chart */
@@ -98,22 +129,22 @@ body {
 
   <div id="container"></div>
   <div class="description">
-    <p>The relationship between the concentration of crime and an area's income differs by the type of crime.</p>
-    <p>Explore how the local concentration of each major crime category relates to area-level income:</p>
+    <p id="emphasis">Each type of crime has a different relationship with area-level income.</p>
+    <p>Relative to the overall share of property crimes in London, burglary and theft are overrepresented in areas with higher average incomes. The opposite can be seen for violent crime, which is linked to socio-economic conditions in deprived areas, and drug-related crime, which is under-reported in affluent areas.</p>
     <div class="custom-select">
-      <select id="crimeMenu">
-        <option value="Burglary">Burglary</option>
-        <option value="Criminal Damage">Criminal Damage</option>
-        <option value="Drugs">Drugs</option>
-        <option value="Robbery">Robbery</option>
-        <option value="Theft and Handling">Theft and Handling</option>
-        <option value="Violence Against the Person">Violence Against the Person</option>
-      </select>
+      <p>Explore how the local concentration of each major crime category relates to area-level income:</p>
+      <input type="button" class="button" value="Burglary" />
+      <input type="button" class="button" value="Criminal Damage" />
+      <input type="button" class="button" value="Drugs" />
+      <input type="button" class="button" value="Robbery" />
+      <input type="button" class="button" value="Theft and Handling" />
+      <input type="button" class="button active" value="Violence Against the Person" />
     </div>
   </div>
+
 </div>
 
-<script>
+<script type="text/javascript">
   d3.csv("data/Crime_LQ_income_2018.csv", function(data) {
 
     //empty arrays/variables for scatter points and regression line
@@ -130,6 +161,9 @@ body {
         zoomType: 'xy',
         animation: true,
         backgroundColor: '#31525B',
+        style: {
+          fontFamily: "'Lato', sans-serif"
+        }
     },
 
     title: {
@@ -183,7 +217,7 @@ body {
                     fontStyle: 'italic',
                     color: '#fff'
                 },
-                text: 'Citywide proportion of crime in category',
+                text: 'Citywide share of crime in category',
                 x: -10
             },
             zIndex: 3
@@ -196,7 +230,7 @@ body {
         headerFormat: '<table>',
         pointFormat: '<tr><th colspan="2"><h3>{point.name}</h3></th></tr>' +
             '<tr><th>2018 mean annual income:</th><td>{point.x}</td></tr>' +
-            '<tr><th>Concentration of crime type relative<br>to citywide concentration:</th><td>{point.y:.2f}%</td></tr>' +
+            '<tr><th>Concentration of crime type relative<br>to citywide concentration:</th><td>{point.y:.2f}</td></tr>' +
             '<tr><th>Total crime:</th><td>{point.z:.2f}</td></tr>',
         footerFormat: '</table>',
         followPointer: true
@@ -231,9 +265,9 @@ body {
   });
 
   //calculate how much more or less concentrated a crime is in one area
-  function getProp(x) {
-      return (x - 1) * 100;
-  }
+  //function getProp(x) {
+  //    return (x - 1) * 100;
+  //}
 
   //calculate regression line
   //code adapted from https://www.highcharts.com/blog/tutorials/calculating-and-drawing-a-linear-regression-using-highcharts/
@@ -251,9 +285,7 @@ body {
       //Set up a line
       let x1, x2, y1, y2;
       x1 = jStat.min(income);
-      console.log(x1);
       x2 = jStat.max(income);
-      console.log(x2);
       y1 = a + b * x1;
       y2 = a + b * x2;
       return {
@@ -279,8 +311,8 @@ body {
     console.log(category);
 
     for(var i = 0; i < data.length; i++) {
-      //location quotient for crime category, processed as the % of citywide proportion of crime in that category
-      var cat = getProp(parseFloat(data[i][category]));
+      //location quotient for crime category
+      var cat = parseFloat(data[i][category]);
       //annual income in 2018
       var inc = parseFloat(data[i]['Total_yearly_income_2018']);
 
@@ -292,6 +324,9 @@ body {
     //UPDATE POINTS
     //console.log(chartdata);
     chart.series[0].setData(chartdata);
+
+    console.log(chart.yAxis[0].options.plotLines[0].label);
+
 
     //UPDATE REGRESSION LINE
     var regObj = regression(catArray, incArray);
@@ -308,19 +343,31 @@ body {
         pointFormat: '<b>Correlation coefficient</b>: ' + r.toFixed(2)
       }
     });
+
+    //UPDATE PLOT LINE TEXT
+    chart.yAxis[0].options.plotLines[0].label.text = 'Citywide share of crimes classified under ' + category;
+    chart.yAxis[0].update();
   }
 
   //set initial view to burglary
-  setCrime('Burglary');
+  setCrime('Violence Against the Person');
 
-  //have a function to set the crime category with a button
-  document.getElementById("crimeMenu").onchange = function() {
-    var x = document.getElementById("crimeMenu").value; //get the ID of the option
-    console.log(x);
-    setCrime(x); 
+  //set the crime category with a button
+  const buttons = document.getElementsByTagName("input");
 
+  Array.from(buttons).forEach(button =>
+  button.addEventListener("click", crimeListener));
+
+  function crimeListener(event) { 
+    //change which element has the active class
+    var current = document.getElementsByClassName("active"); 
+    current[0].className = current[0].className.replace(" active", "");
+    const button = event.target;
+    button.className += " active";
+
+    //call setCrime function using button value
+    setCrime(button.value);
   }
-
 
 });
 
