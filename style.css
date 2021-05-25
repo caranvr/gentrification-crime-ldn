@@ -5,9 +5,47 @@ body {
   font-family: 'Lato', sans-serif;
   box-sizing: border-box;
   background-color: #31525B;
+  scroll-behavior: smooth;
 }
 
-#scatter-wrapper {
+#emphasis {
+  font-weight: 900;
+  font-size: 1.2em;
+}
+
+.button {
+  font-family: 'Lato', sans-serif;
+  background-color: #31525B;
+  border: 1px solid white;
+  border-radius: 10px;
+  color: white;
+  padding: 12px;
+  font-size: 14px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  margin: 4px 2px;
+  cursor: pointer;
+}
+
+.scroll-btn {
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  font-size: 18px;
+}
+
+.scroll-btn .material-icons {
+  vertical-align: text-bottom;
+}
+
+/* intro */
+#intro {
+  height: 100vh;
+}
+
+/* income and crime scatterplot */
+
+#income-crime {
   height: 100vh;
   display: flex;
   justify-content: center;
@@ -27,28 +65,8 @@ body {
   font-weight: 100;
 }
 
-#emphasis {
-  font-weight: 900;
-  font-size: 1.2em;
-}
-
 .custom-select {
   font-weight: 400;
-}
-
-.button {
-  font-family: 'Lato', sans-serif;
-  background-color: #31525B;
-  border: 1px solid white;
-  border-radius: 10px;
-  color: white;
-  padding: 12px;
-  font-size: 14px;
-  text-align: center;
-  text-decoration: none;
-  display: inline-block;
-  margin: 4px 2px;
-  cursor: pointer;
 }
 
 .active, .button:hover {

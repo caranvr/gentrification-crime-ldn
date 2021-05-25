@@ -1,13 +1,14 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>MSOA-level crime prevalence and average income, 2018</title>
+	<title>Gentrification and Crime in London, 2008-2018</title>
 	<meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
 
 
 	<!-- google fonts -->
 	<link rel="preconnect" href="https://fonts.gstatic.com">
 	<link href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&display=swap" rel="stylesheet">
+	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 
 	<!-- stylesheet -->
 	<link rel="stylesheet" href="style.css">
@@ -17,28 +18,33 @@
 <body>
 	<!-- introduction -->
 	<div id="intro">
-		<h1>Gentrification and Crime</h1>
+		<h1>Gentrification and Crime in London</h1>
+		<h2>2008–2018</h2>
+		<a class="button scroll-btn" href="#income-crime">
+			Start <span class="material-icons material-icons-outlined md-18">expand_more</span>
+		</a>
 	</div>
 
 	<!-- income and crime scatterplot -->
-	<div id="scatter-wrapper">
+	<div id="income-crime">
   	<div id="scatter-container"></div>
 	  <div class="scatter-description">
 	    <p id="emphasis">Each type of crime has a different relationship with area-level income.</p>
 	    <p>Relative to the overall share of property crimes in London, burglary and theft are overrepresented in areas with higher average incomes. The opposite can be seen for violent crime, which is linked to socio-economic conditions in deprived areas, and drug-related crime, which is under-reported in affluent areas.</p>
 	    <div class="custom-select">
 	      <p>Explore how the local concentration of each major crime category relates to area-level income:</p>
-	      <input type="button" class="button" value="Burglary" />
-	      <input type="button" class="button" value="Criminal Damage" />
-	      <input type="button" class="button" value="Drugs" />
-	      <input type="button" class="button" value="Robbery" />
-	      <input type="button" class="button" value="Theft and Handling" />
-	      <input type="button" class="button active" value="Violence Against the Person" />
+	      <input type="button" class="button scatter-btn" value="Burglary" />
+	      <input type="button" class="button scatter-btn" value="Criminal Damage" />
+	      <input type="button" class="button scatter-btn" value="Drugs" />
+	      <input type="button" class="button scatter-btn" value="Robbery" />
+	      <input type="button" class="button scatter-btn" value="Theft and Handling" />
+	      <input type="button" class="button scatter-btn active" value="Violence Against the Person" />
 	    </div>
 	  </div>
 	</div>
 
 	<!--libraries-->
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 	<script charset="utf-8" src="https://d3js.org/d3.v4.min.js"></script>
 	<script src="https://code.highcharts.com/highcharts.js"></script>
 	<script src="https://code.highcharts.com/highcharts-more.js"></script>
