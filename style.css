@@ -40,6 +40,7 @@ body {
   text-transform: uppercase;
   letter-spacing: 0.2em;
   font-size: 18px;
+  z-index: 100000;
 }
 
 .scroll-btn:hover {
@@ -85,8 +86,7 @@ body {
   font-size: 2.4em;
 }
 
-/* income and crime scatterplot */
-
+/* income and crime scatterplot section */
 #income-crime {
   height: 100vh;
   display: flex;
@@ -111,7 +111,7 @@ body {
   font-weight: 400;
 }
 
-/* chart */
+/* income and crime scatterplot chart */
 .highcharts-figure, .highcharts-data-table table {
     min-width: 310px; 
     max-width: 800px;
@@ -149,3 +149,85 @@ body {
 .highcharts-data-table tr:hover {
     background: #f1f7ff;
 }
+
+/* divider between sections */
+.divider {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 50px;
+}
+
+/* LQ map */
+
+/* income map */
+#income-change {
+  height: 100vh;
+}
+
+#services {
+  height: 15vh;
+}
+
+.map {
+  height: 85vh;
+  position: relative;
+}
+
+#slider {
+  -webkit-appearance: none;
+  width: 90%;
+  height: 10px;
+  border-radius: 5px;
+  background: #5c8eb0;
+  outline: none;
+}
+
+#slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 25px;
+  height: 25px;
+  border-radius: 50%;
+  background: #ff4a17;
+  box-shadow: 0 1px 1px rgba(0, 0, 0, .5);
+  border: 1px solid #ff724a;
+  cursor: pointer;
+}
+
+.labels {
+  display: flex;
+  width: 90%;
+  margin: 10px;
+  justify-content: space-between;
+}
+
+.lenged {
+  position: absolute;
+  bottom: 10px;
+  z-index: 999;
+  background: #31525B;
+  width: 150px;
+  padding: 10px 20px;
+  margin-left: 20px;
+}
+
+.lenged .title{
+  font-size: 18px;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.lenged-item span{
+  display: inline-block;
+}
+
+.map .scroll-btn {
+  position: absolute;
+  margin-top: 75vh;
+  margin-left: 50%;
+}
+
+
+

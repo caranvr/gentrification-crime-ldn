@@ -250,3 +250,29 @@ d3.csv("data/Crime_LQ_income_2018.csv", function(data) {
   }
 
 });
+
+// INCOME CHOROPLETH
+
+var oldYear = '2008'
+var year = null
+        //    创建地图对象
+mapboxgl.accessToken = 'pk.eyJ1IjoiaGhoMzU2ODciLCJhIjoiY2ttOTB2b3F5MTFjbTJwbXpycGtjano5ZCJ9.CISH6kMmfKVIl5x80_2sDQ';
+var map = new mapboxgl.Map({
+  container: 'map', // container id
+  style: 'mapbox://styles/hhh35687/ckoo1pdyo1s7217mzttk5td4q', // replace this with your style URL
+  center: [-0.1, 51.49], // starting position [lng, lat]
+  zoom: 9.7, // starting zoom
+});
+
+        // 滑块点击事件
+function change() {
+  if (year)
+    oldYear = year
+  year = document.getElementById('slider').value;
+  map.setLayoutProperty(oldYear, 'visibility', 'none');
+  map.setLayoutProperty(year, 'visibility', 'visible');
+  document.getElementById('year').innerHTML = year;
+}
+
+
+
