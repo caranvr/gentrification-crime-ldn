@@ -1,0 +1,261 @@
+<html>
+  <head>
+    <meta content="text/html;charset=utf-8" http-equiv="Content-Type">
+    <title> Individual Visualisation</title>
+
+    <meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no" />
+
+    <script src='https://api.mapbox.com/mapbox-gl-js/v2.2.0/mapbox-gl.js'></script>
+<link href='https://api.mapbox.com/mapbox-gl-js/v2.2.0/mapbox-gl.css' rel='stylesheet' />
+  <style>
+        body {
+      margin: 0;
+      padding: 0;
+      }
+
+      h2,
+      h3 {
+      margin: 10px;
+      font-size: 1.2em;
+      }
+
+      h3 {
+      font-size: 1em;
+      }
+      {
+   font-size: 0.85em;
+   margin: 10px;
+   text-align: left;
+ }
+
+   /**
+   * Create a position for the map
+   * on the page */
+   #map {
+     position: absolute;
+     top: 0;
+     bottom: 0;
+     width: 100%;
+   }
+
+   /**
+   * Set rules for how the map overlays
+   * (information box and legend) will be displayed
+   * on the page. */
+   .map-overlay {
+     position: absolute;
+     bottom: 50;
+     right: 0;
+     background: rgba(255, 255, 255, 0.8);
+     margin-right: 20px;
+     font-family: Arial, sans-serif;
+     overflow: auto;
+     border-radius: 3px;
+   }
+
+   #features {
+     top: 0;
+     height: 200px;
+     margin-top: 20px;
+     width: 250px;
+   }
+
+   #legend {
+     padding: 10px;
+     box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+     line-height: 18px;
+     height: 150px;
+     margin-bottom: 40px;
+     width: 100px;
+   }
+
+     #console {
+    position: absolute;
+    width: 240px;
+    margin: 10px;
+    padding: 10px 20px;
+    background-color: white;
+  }
+
+   .legend-key {
+     display: inline-block;
+     border-radius: 20%;
+     width: 10px;
+     height: 10px;
+     margin-right: 5px;
+   }
+
+   body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Helvetica Neue', Helvetica, Arial, Sans-serif;
+}
+
+#map {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 100%;
+}
+
+h1 {
+  font-size: 20px;
+  line-height: 30px;
+}
+
+h2 {
+  font-size: 14px;
+  line-height: 20px;
+  margin-bottom: 10px;
+}
+
+a {
+  text-decoration: none;
+  color: #2dc4b2;
+}
+
+#console {
+  position: absolute;
+  width: 240px;
+  margin: 10px;
+  padding: 10px 20px;
+  background-color: white;
+}
+  </style>
+
+  </head>
+
+
+  <body>
+
+
+
+
+    <div id="map"></div>
+    <div id='console'>
+      <h1>Location Quotiens</h1>
+      <p>Data: <a href='https://data.cityofnewyork.us/Public-Safety/NYPD-Motor-Vehicle-Collisions/h9gi-nx95'>Crime in London by MSOA</a>, years 2008-2018</p>
+      <div id='pd'><p>Choropleths describe the Location Quotiens of crimes in the area, as used in <a href='https://data.cityofnewyork.us/Public-Safety/NYPD-Motor-Vehicle-Collisions/h9gi-nx95'>Mapping Crime for Analytic Purposes, P. Brantingham</a> </p>
+
+      <div class='session'>
+        <div class='session' id='sliderbar'>
+          <h2>Year <label id='active-year'>2008</label></h2>
+          <input id='slider' class='row' type='range' min='2008' max='2018' step='1' value='2008' />
+        </div>
+    </div>
+    <div class='session'>
+    <h2>Type of crime:</h2>
+    <div class='row' id='filters'>
+      <input id='Total' type='radio' name='toggle' value='Total' checked='checked'>
+      <label for='Total'>Total</label>
+      <br />
+      <input id='Burglary' type='radio' name='toggle' value='Burglary'>
+      <label for='Burglary'>Burglary</label>
+      <br />
+      <input id='Criminal Damage' type='radio' name='toggle' value='Criminal Damage'>
+      <label for='Criminal Damage'>Criminal Damage</label>
+      <br />
+      <input id='Drugs' type='radio' name='toggle' value='Drugs'>
+      <label for='Drugs'>Drugs</label>
+      <br />
+      <input id='Robbery' type='radio' name='toggle' value='Robbery'>
+      <label for='Robbery'>Robbery</label>
+      <br />
+      <input id='Theft and Handling' type='radio' name='toggle' value='Theft and Handling'>
+      <label for='Theft and Handling'>Theft and Handling</label>
+      <br />
+      <input id='Violence Against the Person' type='radio' name='toggle' value='Violence Against the Person'>
+      <label for='Violence Against the Person'>Violence Against the Person</label>
+      <br />
+      <input id='Other Notifiable Offence' type='radio' name='toggle' value='Other Notifiable Offence'>
+      <label for='Other Notifiable Offence'>Other Notifiable Offence</label>
+    </div>
+  </div>`
+    </div>
+    </div>
+  //</div class='map-overlay' id='legend'></div>
+
+
+<script>
+
+//load the map in
+    var year = '2008'
+    mapboxgl.accessToken = 'pk.eyJ1IjoiemNxc2FwaSIsImEiOiJja2s0and1Y2MxNGIwMm9xb2o4MGZkeHg3In0.a5cDHbFRkOwJdbAxjyay7Q';
+
+    var map = new mapboxgl.Map({
+      container: 'map', // container id
+      style: 'mapbox://styles/zcqsapi/ckoosmowv6juv18pl8b9qasjg',
+      center: [-0.106, 51.502], // starting position [lng, lat]
+      zoom: 9.58 // starting zoom
+    });
+
+    map.on('load', function() {
+
+      map.addSource('crimes', {
+        'type': 'geojson',
+        'data': 'https://raw.githubusercontent.com/ali-pie/gis-project/main/DigVis/crimes.geojson'
+      });
+
+
+
+      map.addLayer({
+                      id: 'crimes-events',
+                      type: 'circle',
+                      source: 'crimes',
+                      paint: {
+                        'circle-radius': {
+                            property: year,
+                            type: 'exponential',
+                            stops: [
+                                [{ zoom: 9, value: 1 }, 5],
+                                [{ zoom: 9, value: 3500 }, 10],
+                                [{ zoom: 9, value: 10000 }, 15],
+                                [{ zoom: 9, value: 15000 }, 30],
+                                [{ zoom: 22, value: 0 }, 10],
+                                [{ zoom: 22, value: 3500 }, 15],
+                                [{ zoom: 22, value: 10000 }, 20],
+                                [{ zoom: 22, value: 15000 }, 50],
+                                ]
+                        },
+                        'circle-color': {
+                             property: 'Major Category',
+                             type: 'categorical',
+                             stops: [
+                               ['Total', 'rgba(34,170,201,0)'],
+                               ['Burglary', 'rgb(188,207,84)'],
+                               ['Criminal Damage', 'rgb(139,84,212)'],
+                               ['Drugs', 'rgb(239,189,219)'],
+                               ['Robbery', 'rgb(103,169,207)'],
+                               ['Theft and Handling', 'rgb(28,144,153)'],
+                               ['Violence Against the Person', 'rgb(1,108,89)'],
+                               ['Other Notifiable Offence', 'rgb(1,108,89)']
+                             ]
+                           },
+                      }
+                    });
+      console.log(map)
+
+      document.getElementById('slider').addEventListener('input', function(e) {
+        var year = parseInt(e.target.value);
+        // update the map
+        //map.setFilter('collisions', ['==', ['number', ['get', 'Hour']], hour]);
+        console.log(year)
+        // update text in the UI
+        document.getElementById('active-year').innerText = year;
+      });
+
+      document.getElementById('filters').addEventListener('change', function(e) {
+        var day = e.target.value;
+        // update the map filter
+        filterDay = ['match', ['string', ['get', 'Major Category']], day, true, false];
+
+      map.setFilter('crimes-events', ['all', filterDay]);
+});
+
+    });
+
+
+
+</script>
+  </body>
+</html>
