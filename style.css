@@ -1,6 +1,7 @@
 /* layout */
 body {
   margin: 0;
+  padding: 0;
   color: #fff;
   font-family: 'Lato', sans-serif;
   box-sizing: border-box;
@@ -28,10 +29,22 @@ body {
   cursor: pointer;
 }
 
+.active, .button:hover {
+  background-color: rgba(255,161,1,1);
+  border: 1px solid rgba(255,161,1,1);
+  color: #31525B;
+  font-weight: 400;
+}
+
 .scroll-btn {
   text-transform: uppercase;
   letter-spacing: 0.2em;
   font-size: 18px;
+}
+
+.scroll-btn:hover {
+  background-color: rgba(255,161,1,0.8);
+  border: 1px solid rgba(255,161,1,0.8);
 }
 
 .scroll-btn .material-icons {
@@ -40,7 +53,36 @@ body {
 
 /* intro */
 #intro {
+  margin-top: 0;
   height: 100vh;
+  width: 100vw;
+  background: url("images/robert-bye-LqZJf4ukqz0-unsplash.jpg") no-repeat center center fixed; /* Do not repeat the image */
+  background-size: 100%; /* Resize the background image to cover the entire container */
+}
+
+.layer {
+  background-color: rgba(49, 82, 91, 0.7);
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  align-items: center;
+  display: flex;
+  justify-content: center;
+  text-align: center;
+}
+
+.intro-text h1 {
+  font-weight: 900;
+  font-size: 5em;
+  margin-bottom: 5px;
+}
+
+.intro-text h2 {
+  font-weight: 100;
+  margin-top: 10px;
+  font-size: 2.4em;
 }
 
 /* income and crime scatterplot */
@@ -66,13 +108,6 @@ body {
 }
 
 .custom-select {
-  font-weight: 400;
-}
-
-.active, .button:hover {
-  background-color: rgba(255,161,1,1);
-  border: 1px solid rgba(255,161,1,1);
-  color: #31525B;
   font-weight: 400;
 }
 
