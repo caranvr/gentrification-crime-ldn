@@ -36,7 +36,7 @@ d3.csv("data/Crime_LQ_income_2018.csv", function(data) {
     const chart = Highcharts.chart('scatter-container', {
 
     chart: {
-        type: 'bubble',
+        type: 'scatter',
         plotBorderWidth: 1,
         zoomType: 'xy',
         animation: true,
@@ -110,18 +110,12 @@ d3.csv("data/Crime_LQ_income_2018.csv", function(data) {
         headerFormat: '<table>',
         pointFormat: '<tr><th colspan="2"><h3>{point.name}</h3></th></tr>' +
             '<tr><th>2018 mean annual income:</th><td>{point.x}</td></tr>' +
-            '<tr><th>Concentration of crime type relative<br>to citywide concentration:</th><td>{point.y:.2f}</td></tr>' +
-            '<tr><th>Total crime:</th><td>{point.z:.2f}</td></tr>',
-        footerFormat: '</table>',
-        followPointer: true
+            '<tr><th>Concentration of crime type relative<br>to citywide concentration:</th><td>{point.y:.2f}</td></tr>',
+        footerFormat: '</table>'
+        //followPointer: true
     },
 
     plotOptions: {
-      bubble: {
-            minSize: 5,
-            maxSize: 20,
-            sizeBy: 'width',
-        },
       line: {
         lineWidth: 5
       }
@@ -129,7 +123,8 @@ d3.csv("data/Crime_LQ_income_2018.csv", function(data) {
 
     series: [{
         data: chartdata,
-        color: 'rgba(255,161,1,0.15)'
+        color: 'rgba(255,161,1,0.35)',
+        stickyTracking: false
     },
     {
       type: 'line',
@@ -196,7 +191,7 @@ d3.csv("data/Crime_LQ_income_2018.csv", function(data) {
       //annual income in 2018
       var inc = parseFloat(data[i]['Total_yearly_income_2018']);
 
-      chartdata.push({x: inc, y: cat, z: parseFloat(data[i]['Total_crime']), name: data[i]['MSOA_name']});
+      chartdata.push([inc, cat]);
       catArray.push(cat);
       incArray.push(inc);
     }

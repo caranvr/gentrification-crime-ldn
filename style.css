@@ -29,7 +29,7 @@ body {
   cursor: pointer;
 }
 
-.active, .button:hover {
+.active, .scatter-btn:hover {
   background-color: rgba(255,161,1,1);
   border: 1px solid rgba(255,161,1,1);
   color: #31525B;
@@ -37,6 +37,9 @@ body {
 }
 
 .scroll-btn {
+  background-color: rgba(249,219,24,1);
+  border: none;
+  color: #31525B;
   text-transform: uppercase;
   letter-spacing: 0.2em;
   font-size: 18px;
@@ -44,8 +47,8 @@ body {
 }
 
 .scroll-btn:hover {
-  background-color: rgba(255,161,1,0.8);
-  border: 1px solid rgba(255,161,1,0.8);
+  background-color: rgba(249,219,24,0.8);
+  border: none;
 }
 
 .scroll-btn .material-icons {
