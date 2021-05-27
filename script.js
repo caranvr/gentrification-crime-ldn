@@ -23,6 +23,15 @@ $("a").on('click', function(event) {
     } // End if
   });
 
+//GENERAL FUNCTIONALITY: POPUP WINDOWS
+function show(overlay) {
+  document.getElementById(overlay).style.display = "block";
+}
+
+function hide(overlay) {
+  document.getElementById(overlay).style.display = "none";
+}
+
 // INCOME AND CRIME SCATTERPLOT
 
 d3.csv("data/Crime_LQ_income_2018.csv", function(data) {

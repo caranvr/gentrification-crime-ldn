@@ -16,27 +16,35 @@
 
 </head>
 <body>
-	<!-- introduction -->
+	<!-- landing -->
 	<div id="intro">
 		<div class="layer">
 			<div class="intro-text">
-				<h1>Gentrification and Crime in London</h1>
-				<h2>2008–2018</h2>
-				<a class="button scroll-btn" href="#income-crime">
+				<h1>Gentrification and Crime</h1>
+				<h2>A case study of Walthamstow and Bromley, 2008–2018</h2>
+				<a class="button scroll-btn" href="#background">
 					Start <span class="material-icons material-icons-outlined md-18">expand_more</span>
 				</a>
 			</div>
 		</div>
 	</div>
 
+	<!-- background -->
+	<div id="background">
+		<!-- h3>Background</h3 -->
+		<p class="emphasis">In London, different neighbourhoods show "specialisation" in different types of crime.</p>
+		<p>Compared to the citywide average, some neighbourhoods have higher proportions of crime classified as violent, while others have higher proportions of burglaries or thefts. Criminological research suggests that the type of crime a neighbourhood is specialised in is related to its average income: a relationship that holds true for London.</p>
+	</div>
+
 	<!-- income and crime scatterplot -->
 	<div id="income-crime">
   	<div id="scatter-container"></div>
 	  <div class="scatter-description">
-	    <p id="emphasis">Each type of crime has a different relationship with area-level income.</p>
-	    <p>Relative to the overall share of property crimes in London, burglary and theft are overrepresented in areas with higher average incomes. The opposite can be seen for violent crime, which is linked to socio-economic conditions in deprived areas, and drug-related crime, which is under-reported in affluent areas.</p>
+	    <p class="emphasis">Each crime type has a different relationship with area-level income.</p>
+	    <p>Relative to the overall share of property crimes in London, burglary and theft are overrepresented in areas with higher average incomes. The opposite can be seen for violent crime, which is linked to socio-economic conditions in deprived areas; and drug-related offences, which ethnic minorities — who are more likely to live in deprived areas — are over-prosecuted for.</p>
 	    <div class="custom-select">
-	      <p>Explore how the local concentration of each major crime category relates to area-level income:</p>
+	      <p class="font-400">Explore how the local concentration of each major crime category correlates with income.
+	      	<a href="#income-crime-overlay" onclick="show('income-crime-overlay')"><span class="material-icons material-icons-outlined md-18">info</span></a></p>
 	      <input type="button" class="button scatter-btn" value="Burglary" />
 	      <input type="button" class="button scatter-btn" value="Criminal Damage" />
 	      <input type="button" class="button scatter-btn" value="Drugs" />
@@ -44,11 +52,28 @@
 	      <input type="button" class="button scatter-btn" value="Theft and Handling" />
 	      <input type="button" class="button scatter-btn active" value="Violence Against the Person" />
 	    </div>
+	    	<!-- info and sources for income crime plot -->
+	    <div id="income-crime-overlay" onclick="hide('income-crime-overlay')" class="overlay">
+	    	<div id="income-crime-sources" class="overlay-content">
+	    		<p class="emphasis">About the location quotient (LQ)</p>
+	    		<p>A measure of local concentration relative to a region, LQs are calculated for a certain crime category in an area. This measure is the ratio between the local share of crime in this category and the citywide share of crime in this category.</p>
+	    		<p>An LQ equal to 1 indicates that the local proportion of crime in a category is equal to the citywide share of crime in that category. An LQ more than 1 indicates that crime is locally overrepresented relative to its share of citywide crime, while an LQ less than 1 shows that crime is locally underrepresented.</p>
+	    		<p>In this plot, LQs are calculated based on Middle-Layer Super Output Areas (MSOAs) and Metropolitan Police major crime categories.</p>
+	    		<p class="emphasis">Data sources</p>
+	    		<ul id="income-crime-source-list">
+	    			<li>Income: <a href="https://www.ons.gov.uk/peoplepopulationandcommunity/personalandhouseholdfinances/incomeandwealth/methodologies/incomeestimatesforsmallareasinenglandandwalestechnicalreportfinancialyearending2018" target="_blank">Office for National Statistics</a></p></li>
+	    			<li>Crime: <a href="https://data.london.gov.uk/dataset/recorded_crime_summary" target="_blank">Metropolitan Police Service</a></li>
+	    		</ul>
+	    	</div>
+	    </div>
 	  </div>
 	</div>
 	<div class="divider">
-		<p>These varying correlations raise an important question: How does gentrification change a neighbourhood's relative concentrations of different crime types?</p>
-		<a class="button scroll-btn" href="#income-change"><span class="material-icons material-icons-outlined md-18">expand_more</span></a>
+		<p>These varying relationships raise an important question:</p>
+		<p class="emphasis">How does gentrification change a neighbourhood's relative concentrations of different crime types?</p>
+		<p>We looked at how it happens in two London boroughs that have been gentrifying in recent years: 
+			<span class="font-400">Walthamstow</span> and <span class="font-400">Bromley.</span></p>
+		<a class="button scroll-btn" href="#income-change">Why these areas? <span class="material-icons material-icons-outlined md-18">expand_more</a>
 	</div>
 
 	<!-- income choropleth -->
@@ -107,8 +132,18 @@
 	                <span style="font-size: 16px;"> £90,000+</span>
 	            </div>
 	        </div>
-	        <a class="active button scroll-btn" href="#income-crime"><span class="material-icons material-icons-outlined md-18">expand_more</span></a>
+	        <a class="button scroll-btn" href="#footer"><span class="material-icons material-icons-outlined md-18">expand_more</span></a>
 	    </div>
+	</div>
+
+	<div id="footer">
+		<a href="#footer" onclick="show('reference-overlay')" class="button link-btn">References</a>
+		<a href="#" target="_blank" class="button link-btn">Github</a>
+		<div id="reference-overlay" onclick="hide('reference-overlay')" class="overlay">
+			<div id="reference-overlay-content" class="overlay-content">
+				<p class="emphasis">References</p>
+			</div>
+		</div>
 	</div>
 
 	<!--libraries-->
