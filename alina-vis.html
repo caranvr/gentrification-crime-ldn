@@ -122,6 +122,41 @@ a {
   padding: 10px 20px;
   background-color: white;
 }
+
+.map-overlay {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  background: rgba(255, 255, 255, 0.8);
+  margin-right: 20px;
+  font-family: Arial, sans-serif;
+  overflow: auto;
+  border-radius: 3px;
+}
+
+#features {
+  top: 0;
+  height: 100px;
+  margin-top: 20px;
+  width: 250px;
+}
+
+#legend {
+  padding: 10px;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+  line-height: 18px;
+  height: 150px;
+  margin-bottom: 40px;
+  width: 100px;
+}
+
+.legend-key {
+  display: inline-block;
+  border-radius: 20%;
+  width: 10px;
+  height: 10px;
+  margin-right: 5px;
+}
   </style>
 
   </head>
@@ -133,6 +168,7 @@ a {
 
 
     <div id="map"></div>
+    <div class='map-overlay' id='features'><div id='pd'><p><h3><strong>Hover over an area!</strong></p></div></div>
     <div id='console'>
       <h1>Location Quotiens</h1>
       <p>Data: <a href='https://data.cityofnewyork.us/Public-Safety/NYPD-Motor-Vehicle-Collisions/h9gi-nx95'>Crime in London by MSOA</a>, years 2008-2018</p>
@@ -217,9 +253,6 @@ a {
         'source': 'lq',
         'source-layer': 'zip-7lumhc',
         'type': 'fill',
-        // only include features for which the "isState"
-        // property is "true"
-        //'filter': ['==', 'isState', true],
         'paint': {
           'fill-color': [
             'interpolate',
@@ -247,35 +280,55 @@ a {
                             property: year,
                             type: 'exponential',
                             stops: [
-                                [{ zoom: 9, value: 1 }, 5],
-                                [{ zoom: 9, value: 200 }, 10],
-                                [{ zoom: 9, value: 600 }, 20],
-                                [{ zoom: 9, value: 10000 }, 35],
-                                [{ zoom: 22, value: 1 }, 5],
-                                [{ zoom: 22, value: 200 }, 10],
-                                [{ zoom: 22, value: 600 }, 40],
-                                [{ zoom: 22, value: 10000 }, 60],
+                              [{ zoom: 9, value: 1 }, 5],
+                              [{ zoom: 9, value: 3500 }, 10],
+                              [{ zoom: 9, value: 10000 }, 15],
+                              [{ zoom: 9, value: 15000 }, 30],
+                              [{ zoom: 22, value: 0 }, 20],
+                              [{ zoom: 22, value: 3500 }, 40],
+                              [{ zoom: 22, value: 10000 }, 60],
+                              [{ zoom: 22, value: 15000 }, 80],
                                 ]
                         },
                         'circle-color': {
                              property: 'Major Category',
                              type: 'categorical',
                              stops: [
-                               ['Total', 'rgb(170,201,0)'],
-                               ['Burglary', 'rgb(188,207,84)'],
-                               ['Criminal Damage', 'rgb(139,84,212)'],
-                               ['Drugs', 'rgb(239,189,219)'],
-                               ['Robbery', 'rgb(103,169,207)'],
-                               ['Theft and Handling', 'rgb(28,144,153)'],
-                               ['Violence Against the Person', 'rgb(1,108,89)'],
-                               ['Other Notifiable Offences', 'rgb(1,108,89)']
+                               ['Total', 'rgb(51,0,102)'],
+                               ['Burglary', 'rgb(76,0,153)'],
+                               ['Criminal Damage', 'rgb(102,0,204)'],
+                               ['Drugs', 'rgb(127,0,255)'],
+                               ['Robbery', 'rgb(153,51,255)'],
+                               ['Theft and Handling', 'rgb(178,102,255)'],
+                               ['Violence Against the Person', 'rgb(204,153,255)'],
+                               ['Other Notifiable Offences', 'rgb(229,204,255)']
                              ]
                            },
                         'circle-opacity': circle_opacity
                       }
                     });
       filterDay = ['match', ['string', ['get', 'Major Category']], crime, true, false];
-      map.setFilter('crimes-events', ['all', filterDay]);
+      map.setFilter('crimes-events', ['all', filterDay])
+
+      if (crime == 'Total') {
+        map.setLayoutProperty(
+          var_name,
+          'visibility',
+          'none')
+      };
+
+      map.on('mousemove', function(e) {
+          var states = map.queryRenderedFeatures(e.point, {
+            layers: [var_name]
+          });
+
+          if (states.length > 0) {
+            document.getElementById('pd').innerHTML = ' <h3><strong>  ' +states[0].properties.MSOA11NM + '</strong><br/>'
+             + '<h3><strong>' + states[0].properties[var_name] + '</strong> Lower Quantient</em></p>';
+          } else {
+            document.getElementById('pd').innerHTML = '<p><h3><strong>Hover over an area!</strong></p>';
+          }
+        });
 
       document.getElementById('slider').addEventListener('input', function(e) {
         year = parseInt(e.target.value);
@@ -324,24 +377,24 @@ a {
                                     [{ zoom: 9, value: 3500 }, 10],
                                     [{ zoom: 9, value: 10000 }, 15],
                                     [{ zoom: 9, value: 15000 }, 30],
-                                    [{ zoom: 22, value: 0 }, 10],
-                                    [{ zoom: 22, value: 3500 }, 15],
-                                    [{ zoom: 22, value: 10000 }, 20],
-                                    [{ zoom: 22, value: 15000 }, 50],
+                                    [{ zoom: 22, value: 0 }, 20],
+                                    [{ zoom: 22, value: 3500 }, 40],
+                                    [{ zoom: 22, value: 10000 }, 60],
+                                    [{ zoom: 22, value: 15000 }, 80],
                                     ]
                             },
                             'circle-color': {
                                  property: 'Major Category',
                                  type: 'categorical',
                                  stops: [
-                                   ['Total', 'rgb(170,201,0)'],
-                                   ['Burglary', 'rgb(188,207,84)'],
-                                   ['Criminal Damage', 'rgb(139,84,212)'],
-                                   ['Drugs', 'rgb(239,189,219)'],
-                                   ['Robbery', 'rgb(103,169,207)'],
-                                   ['Theft and Handling', 'rgb(28,144,153)'],
-                                   ['Violence Against the Person', 'rgb(1,108,89)'],
-                                   ['Other Notifiable Offences', 'rgb(1,108,89)']
+                                   ['Total', 'rgb(51,0,102)'],
+                                   ['Burglary', 'rgb(76,0,153)'],
+                                   ['Criminal Damage', 'rgb(102,0,204)'],
+                                   ['Drugs', 'rgb(127,0,255)'],
+                                   ['Robbery', 'rgb(153,51,255)'],
+                                   ['Theft and Handling', 'rgb(178,102,255)'],
+                                   ['Violence Against the Person', 'rgb(204,153,255)'],
+                                   ['Other Notifiable Offences', 'rgb(229,204,255)']
                                  ]
                                },
                             'circle-opacity': circle_opacity
@@ -354,6 +407,12 @@ a {
           filterDay = ['match', ['string', ['get', 'Major Category']], crime, true, false];
           map.setFilter('crimes-events', ['all', filterDay]);
         document.getElementById('active-year').innerText = year;
+        if (crime == 'Total') {
+          map.setLayoutProperty(
+            var_name,
+            'visibility',
+            'none')
+        };
       });
 
       document.getElementById('filters').addEventListener('change', function(e) {
@@ -392,6 +451,12 @@ a {
           );
         map.setFilter('crimes-events', ['all', filterDay]);
         map.removeLayer(temp);
+        if (crime == 'Total') {
+          map.setLayoutProperty(
+            var_name,
+            'visibility',
+            'none')
+        };
 
 });
 
