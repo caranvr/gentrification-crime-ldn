@@ -34,7 +34,7 @@ function hide(overlay) {
 
 // INCOME AND CRIME SCATTERPLOT
 
-d3.csv("data/Crime_LQ_income_2018.csv", function(data) {
+d3.csv("data/processed/Crime_LQ_income_2018.csv", function(data) {
 
     //empty arrays/variables for scatter points and regression line
     var chartdata = [];
@@ -261,22 +261,308 @@ var oldYear = '2008'
 var year = null
         //    创建地图对象
 mapboxgl.accessToken = 'pk.eyJ1IjoiaGhoMzU2ODciLCJhIjoiY2ttOTB2b3F5MTFjbTJwbXpycGtjano5ZCJ9.CISH6kMmfKVIl5x80_2sDQ';
-var map = new mapboxgl.Map({
-  container: 'map', // container id
+
+var incMap = new mapboxgl.Map({
+  container: 'income-change-map', // container id
   style: 'mapbox://styles/hhh35687/ckoo1pdyo1s7217mzttk5td4q', // replace this with your style URL
   center: [-0.1, 51.49], // starting position [lng, lat]
   zoom: 9.7, // starting zoom
 });
 
-        // 滑块点击事件
+incMap.on('load', function() {
+
+//how to only show outlines of Waltham Forest and Bromley
+  incMap.addSource('boroughs', {
+    type: 'vector',
+    url: 'mapbox://caranvr.97m3px18'
+  });
+
+  incMap.addLayer({                  
+    id: 'walt-brom-outline',
+    type: 'line',
+    source: 'boroughs',
+    'source-layer': 'boroughs_wgs84-b7y9u2',
+    'layout': {
+      'visibility': 'visible'
+    },
+    paint: {
+      'line-color': '#31525B',
+      'line-width': 2
+    },
+    filter: ["any", ['==','NAME','Waltham Forest'], ['==', 'NAME', 'Bromley']]
+  });
+
+})
+
+   // 滑块点击事件
 function change() {
-  if (year)
-    oldYear = year
-  year = document.getElementById('slider').value;
-  map.setLayoutProperty(oldYear, 'visibility', 'none');
-  map.setLayoutProperty(year, 'visibility', 'visible');
-  document.getElementById('year').innerHTML = year;
-}
+    if (year)
+      oldYear = year
+    year = document.getElementById('slider').value;
+    incMap.setLayoutProperty(oldYear, 'visibility', 'none');
+    incMap.setLayoutProperty(year, 'visibility', 'visible');
+    document.getElementById('year').innerHTML = year;
+  }  
+
+//LQ MAP
+var lq_year = '2008';
+    var var_name = 'BURLC2008';
+    var show = 'visible';
+    var crime = 'Total';
+    var circle_opacity = 0.8;
+
+    var map = new mapboxgl.Map({
+      container: 'lq-map', // container id
+      style: 'mapbox://styles/zcqsapi/ckp709xbg01la17p84cwgv4p3',
+      center: [-0.106, 51.502], // starting position [lng, lat]
+      zoom: 9.58 // starting zoom
+    });
+
+    map.on('load', function() {
+
+
+
+      map.addSource('crimes', {
+        'type': 'geojson',
+        'data': 'https://raw.githubusercontent.com/ali-pie/gis-project/main/DigVis/crimes.geojson'
+      });
+
+      map.addSource('lq', {
+        'type': 'vector',
+        'url': 'mapbox://zcqsapi.avgvs00f'
+      });
+
+      map.addLayer({
+        'id': var_name,
+        'source': 'lq',
+        'source-layer': 'zip-7lumhc',
+        'type': 'fill',
+        'paint': {
+          'fill-color': [
+            'interpolate',
+            ['linear'],
+            ['get', var_name],
+            0,
+            '#008000',
+            1,
+            '#FFFF00',
+            2,
+            '#FF0000'
+            ],
+          'fill-opacity': 0.40
+        }
+        },
+        'waterway-label'
+        );
+
+      map.addLayer({
+                      id: 'crimes-events',
+                      type: 'circle',
+                      source: 'crimes',
+                      paint: {
+                        'circle-radius': {
+                            property: lq_year,
+                            type: 'exponential',
+                            stops: [
+                              [{ zoom: 9, value: 1 }, 5],
+                              [{ zoom: 9, value: 3500 }, 10],
+                              [{ zoom: 9, value: 10000 }, 15],
+                              [{ zoom: 9, value: 15000 }, 30],
+                              [{ zoom: 22, value: 0 }, 20],
+                              [{ zoom: 22, value: 3500 }, 40],
+                              [{ zoom: 22, value: 10000 }, 60],
+                              [{ zoom: 22, value: 15000 }, 80],
+                                ]
+                        },
+                        'circle-color': {
+                             property: 'Major Category',
+                             type: 'categorical',
+                             stops: [
+                               ['Total', 'rgb(51,0,102)'],
+                               ['Burglary', 'rgb(76,0,153)'],
+                               ['Criminal Damage', 'rgb(102,0,204)'],
+                               ['Drugs', 'rgb(127,0,255)'],
+                               ['Robbery', 'rgb(153,51,255)'],
+                               ['Theft and Handling', 'rgb(178,102,255)'],
+                               ['Violence Against the Person', 'rgb(204,153,255)'],
+                               ['Other Notifiable Offences', 'rgb(229,204,255)']
+                             ]
+                           },
+                        'circle-opacity': circle_opacity
+                      }
+                    });
+      filterDay = ['match', ['string', ['get', 'Major Category']], crime, true, false];
+      map.setFilter('crimes-events', ['all', filterDay])
+
+      if (crime == 'Total') {
+        map.setLayoutProperty(
+          var_name,
+          'visibility',
+          'none')
+      };
+
+      map.on('mousemove', function(e) {
+          var states = map.queryRenderedFeatures(e.point, {
+            layers: [var_name]
+          });
+
+          if (states.length > 0) {
+            document.getElementById('pd').innerHTML = ' <h3><strong>  ' +states[0].properties.MSOA11NM + '</strong><br/>'
+             + '<h3><strong>' + states[0].properties[var_name] + '</strong> Lower Quantient</em></p>';
+          } else {
+            document.getElementById('pd').innerHTML = '<p><h3><strong>Hover over an area!</strong></p>';
+          }
+        });
+
+      document.getElementById('lq-slider').addEventListener('input', function(e) {
+        lq_year = parseInt(e.target.value);
+        var temp = var_name;
+
+        var_name = String(var_name).substring(0,5);
+        var_name = var_name.concat(lq_year);
+        //update the map
+          map.addLayer({
+            'id': var_name,
+            'source': 'lq',
+            'source-layer': 'zip-7lumhc',
+            'type': 'fill',
+            // only include features for which the "isState"
+            // property is "true"
+            //'filter': ['==', 'isState', true],
+            'paint': {
+              'fill-color': [
+                'interpolate',
+                ['linear'],
+                ['get', var_name],
+                0,
+                '#008000',
+                1,
+                '#FFFF00',
+                2,
+                '#FF0000'
+                ],
+              'fill-opacity': 0.40
+            }
+            },
+            'waterway-label'
+            );
+
+          map.removeLayer('crimes-events');
+          map.addLayer({
+                          id: 'crimes-events',
+                          type: 'circle',
+                          source: 'crimes',
+                          paint: {
+                            'circle-radius': {
+                                property: String(lq_year),
+                                type: 'exponential',
+                                stops: [
+                                    [{ zoom: 9, value: 1 }, 5],
+                                    [{ zoom: 9, value: 3500 }, 10],
+                                    [{ zoom: 9, value: 10000 }, 15],
+                                    [{ zoom: 9, value: 15000 }, 30],
+                                    [{ zoom: 22, value: 0 }, 20],
+                                    [{ zoom: 22, value: 3500 }, 40],
+                                    [{ zoom: 22, value: 10000 }, 60],
+                                    [{ zoom: 22, value: 15000 }, 80],
+                                    ]
+                            },
+                            'circle-color': {
+                                 property: 'Major Category',
+                                 type: 'categorical',
+                                 stops: [
+                                   ['Total', 'rgb(51,0,102)'],
+                                   ['Burglary', 'rgb(76,0,153)'],
+                                   ['Criminal Damage', 'rgb(102,0,204)'],
+                                   ['Drugs', 'rgb(127,0,255)'],
+                                   ['Robbery', 'rgb(153,51,255)'],
+                                   ['Theft and Handling', 'rgb(178,102,255)'],
+                                   ['Violence Against the Person', 'rgb(204,153,255)'],
+                                   ['Other Notifiable Offences', 'rgb(229,204,255)']
+                                 ]
+                               },
+                            'circle-opacity': circle_opacity
+                          },
+                          layout: {
+                            visibility : show
+                          }
+                        });
+          map.removeLayer(temp);
+          filterDay = ['match', ['string', ['get', 'Major Category']], crime, true, false];
+          map.setFilter('crimes-events', ['all', filterDay]);
+        document.getElementById('active-year').innerText = lq_year;
+        if (crime == 'Total') {
+          map.setLayoutProperty(
+            var_name,
+            'visibility',
+            'none')
+        };
+      });
+
+      document.getElementById('filters').addEventListener('change', function(e) {
+        crime = e.target.value;
+
+        var temp = var_name
+
+        filterDay = ['match', ['string', ['get', 'Major Category']], crime, true, false];
+        var long = filterDay[2]
+        var short = long.substring(0,3).toUpperCase()
+        var_name = short.concat('LC').concat(String(lq_year))
+        map.addLayer({
+          'id': var_name,
+          'source': 'lq',
+          'source-layer': 'zip-7lumhc',
+          'type': 'fill',
+          // only include features for which the "isState"
+          // property is "true"
+          //'filter': ['==', 'isState', true],
+          'paint': {
+            'fill-color': [
+              'interpolate',
+              ['linear'],
+              ['get', var_name],
+              0,
+              '#008000',
+              1,
+              '#FFFF00',
+              2,
+              '#FF0000'
+              ],
+            'fill-opacity': 0.40
+          }
+          },
+          'waterway-label'
+          );
+        map.setFilter('crimes-events', ['all', filterDay]);
+        map.removeLayer(temp);
+        if (crime == 'Total') {
+          map.setLayoutProperty(
+            var_name,
+            'visibility',
+            'none')
+        };
+
+});
+
+      document.getElementById('listing-group').addEventListener('change', function (e) {
+          var handler = e.target.id;
+          if (e.target.checked) {
+              show = 'visible'
+              map.setLayoutProperty(
+                'crimes-events',
+                'visibility',
+                'visible')
+          } else {
+              show = 'none'
+              map.setLayoutProperty(
+                'crimes-events',
+                'visibility',
+                'none')
+          }
+          });
+
+    });
+
 
 
 

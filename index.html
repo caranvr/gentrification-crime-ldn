@@ -38,138 +38,198 @@
 
 	<!-- income and crime scatterplot -->
 	<div id="income-crime">
-  	<div id="scatter-container"></div>
-	  <div class="scatter-description">
-	    <p class="emphasis">Each crime type has a different relationship with area-level income.</p>
-	    <p>Relative to the overall share of property crimes in London, burglary and theft are overrepresented in areas with higher average incomes. The opposite can be seen for violent crime, which is linked to socio-economic conditions in deprived areas; and drug-related offences, which ethnic minorities — who are more likely to live in deprived areas — are over-prosecuted for.</p>
-	    <div class="custom-select">
-	      <p class="font-400">Explore how the local concentration of each major crime category correlates with income.
-	      	<a href="#income-crime-overlay" onclick="show('income-crime-overlay')"><span class="material-icons material-icons-outlined md-18">info</span></a></p>
-	      <input type="button" class="button scatter-btn" value="Burglary" />
-	      <input type="button" class="button scatter-btn" value="Criminal Damage" />
-	      <input type="button" class="button scatter-btn" value="Drugs" />
-	      <input type="button" class="button scatter-btn" value="Robbery" />
-	      <input type="button" class="button scatter-btn" value="Theft and Handling" />
-	      <input type="button" class="button scatter-btn active" value="Violence Against the Person" />
-	    </div>
-	    	<!-- info and sources for income crime plot -->
-	    <div id="income-crime-overlay" onclick="hide('income-crime-overlay')" class="overlay">
-	    	<div id="income-crime-sources" class="overlay-content">
-	    		<p class="emphasis">About the location quotient (LQ)</p>
-	    		<p>A measure of local concentration relative to a region, LQs are calculated for a certain crime category in an area. This measure is the ratio between the local share of crime in this category and the citywide share of crime in this category.</p>
-	    		<p>An LQ equal to 1 indicates that the local proportion of crime in a category is equal to the citywide share of crime in that category. An LQ more than 1 indicates that crime is locally overrepresented relative to its share of citywide crime, while an LQ less than 1 shows that crime is locally underrepresented.</p>
-	    		<p>In this plot, LQs are calculated based on Middle-Layer Super Output Areas (MSOAs) and Metropolitan Police major crime categories.</p>
-	    		<p class="emphasis">Data sources</p>
-	    		<ul id="income-crime-source-list">
-	    			<li>Income: <a href="https://www.ons.gov.uk/peoplepopulationandcommunity/personalandhouseholdfinances/incomeandwealth/methodologies/incomeestimatesforsmallareasinenglandandwalestechnicalreportfinancialyearending2018" target="_blank">Office for National Statistics</a></p></li>
-	    			<li>Crime: <a href="https://data.london.gov.uk/dataset/recorded_crime_summary" target="_blank">Metropolitan Police Service</a></li>
-	    		</ul>
-	    	</div>
-	    </div>
-	  </div>
-	</div>
-	<div class="divider">
-		<p>These varying relationships raise an important question:</p>
-		<p class="emphasis">How does gentrification change a neighbourhood's relative concentrations of different crime types?</p>
-		<p>We looked at how it happens in two London boroughs that have been gentrifying in recent years: 
-			<span class="font-400">Walthamstow</span> and <span class="font-400">Bromley.</span></p>
-		<a class="button scroll-btn" href="#income-change">Why these areas? <span class="material-icons material-icons-outlined md-18">expand_more</a>
-	</div>
-
-	<!-- income choropleth -->
-	<div id="income-change">
+		<div id="scatter-container"></div>
+		<div class="scatter-description">
+			<p class="emphasis">Each crime type has a different relationship with area-level income.</p>
+			<p>Relative to the overall share of property crimes in London, burglary and theft are overrepresented in areas with higher average incomes. The opposite can be seen for violent crime, which is linked to socio-economic conditions in deprived areas; and drug-related offences, for which ethnic minorities — who are more likely to live in deprived areas — are over-prosecuted.</p>
+			<div class="custom-select">
+				<p class="font-400">Explore how the local concentration of each major crime category correlates with income.
+					<a href="#income-crime-overlay" onclick="show('income-crime-overlay')"><span class="material-icons material-icons-outlined md-18">info</span></a></p>
+					<input type="button" class="button scatter-btn" value="Burglary" />
+					<input type="button" class="button scatter-btn" value="Criminal Damage" />
+					<input type="button" class="button scatter-btn" value="Drugs" />
+					<input type="button" class="button scatter-btn" value="Robbery" />
+					<input type="button" class="button scatter-btn" value="Theft and Handling" />
+					<input type="button" class="button scatter-btn active" value="Violence Against the Person" />
+				</div>
+				<!-- info and sources for income crime plot -->
+				<div id="income-crime-overlay" onclick="hide('income-crime-overlay')" class="overlay">
+					<div id="income-crime-sources" class="overlay-content">
+						<p class="emphasis">About the location quotient (LQ)</p>
+						<p>A measure of local concentration relative to a region, LQs are calculated for a certain crime category in an area. This measure is the ratio between the local share of crime in this category and the citywide share of crime in this category.</p>
+						<p>An LQ equal to 1 indicates that the local proportion of crime in a category is equal to the citywide share of crime in that category. An LQ more than 1 indicates that crime is locally overrepresented relative to its share of citywide crime, while an LQ less than 1 shows that crime is locally underrepresented.</p>
+						<p>In this plot, LQs are calculated based on Middle-Layer Super Output Areas (MSOAs) and Metropolitan Police major crime categories.</p>
+						<p class="emphasis">Data sources</p>
+						<ul id="income-crime-source-list">
+							<li>Income: <a href="https://www.ons.gov.uk/peoplepopulationandcommunity/personalandhouseholdfinances/incomeandwealth/methodologies/incomeestimatesforsmallareasinenglandandwalestechnicalreportfinancialyearending2018" target="_blank">Office for National Statistics</a></p></li>
+							<li>Crime: <a href="https://data.london.gov.uk/dataset/recorded_crime_summary" target="_blank">Metropolitan Police Service</a></li>
+						</ul>
+					</div>
+				</div>
+			</div>
+		</div>
 		<div class="divider">
-			<p class="emphasis">Both areas saw significant increases in average income between 2008 and 2018. <a href="#income-change-overlay" onclick="show('income-change-overlay')"><span class="material-icons material-icons-outlined md-18">info</span></a></p>
-		</div>
-		<div id="income-change-overlay" class="overlay" onclick="hide('income-change-overlay')">
-			<div id="income-change-overlay-content" class="overlay-content">
-				<p class="emphasis">Data source</p>
-			</div>
-		</div>
-		<section id="services" class="services section-bg">
-	        <div class="slider" data-aos="fade-up" data-aos-delay="100">
-	            <center>
-	                <span id="value">
-	                    <font size="4"><span class="font-400">London Average Year Income by MSOA:</span></font>
-	                    <font size="4" weight="100"><b id="year">2008</b></font>
-	                </span>
-	                <input id="slider" type="range" min="2008" max="2018" step="2" value="2008" oninput="change()"
-	                    onchange="change()">
-	                <script type='text/javascript'>
+			<p>These varying relationships raise an important question:</p>
+			<p class="emphasis">How does gentrification change a neighbourhood's relative concentrations of different crime types?</p>
+			<p>We looked at how it happens in two London boroughs that have been gentrifying in recent years: 
+				<span class="font-400">Waltham Forest</span> and <span class="font-400">Bromley.</span></p>
+				<a class="button scroll-btn" href="#income-change">Why these boroughs? <span class="material-icons material-icons-outlined md-18">expand_more</a>
+				</div>
+
+				<!-- income choropleth -->
+				<div id="income-change">
+					<div class="divider">
+						<p class="emphasis">Both boroughs saw significant increases in average income between 2008 and 2018. <a href="#income-change-overlay" onclick="show('income-change-overlay')"><span class="material-icons material-icons-outlined md-18">info</span></a></p>
+					</div>
+					<div id="income-change-overlay" class="overlay" onclick="hide('income-change-overlay')">
+						<div id="income-change-overlay-content" class="overlay-content">
+							<p>Data source: <a href="https://www.ons.gov.uk/peoplepopulationandcommunity/personalandhouseholdfinances/incomeandwealth/bulletins/smallareamodelbasedincomeestimates/financialyearending2018" target="_blank">Office for National Statistics</a></p>
+						</div>
+					</div>
+					<section id="services" class="services section-bg">
+						<div class="slider" data-aos="fade-up" data-aos-delay="100">
+							<center>
+								<span id="value">
+									<font size="4"><span class="font-400">London Average Year Income by MSOA:</span></font>
+									<font size="4" weight="100"><b id="year">2008</b></font>
+								</span>
+								<input id="slider" type="range" min="2008" max="2018" step="2" value="2008" oninput="change()"
+								onchange="change()">
+								<script type='text/javascript'>
 
 
-	                </script>
-	                <div class='row labels'>
-	                    <div class='label1'>2008</div>
-	                    <div class='label2'>2018</div>
-	                </div>
-	            </center>
-	        </div>
-	    </section>
+								</script>
+								<div class='row labels'>
+									<div class='label1'>2008</div>
+									<div class='label2'>2018</div>
+								</div>
+							</center>
+						</div>
+					</section>
 
-	    <div class="map" id="map">
-	        <!-- 3、 -->
-	        <div class="lenged">
-	            <div class="title">Legend</div>
-	            <div class="lenged-item">
-	                <span style="width: 15px;height: 15px;background: #fed976;margin-right: 10px;"></span>
-	                <span style="font-size: 16px;">£20,000-£30,000</span>
-	            </div>
-	            <div  class="lenged-item">
-	                <span style="width: 15px;height: 15px;background:#feb24c;margin-right: 10px;"></span>
-	                <span style="font-size: 16px;">£30,000-£40,000 </span>
-	            </div>
-	            <div  class="lenged-item">
-	                <span style="width: 15px;height: 15px;background: #feb24c;margin-right: 10px;"></span>
-	                <span style="font-size: 16px;"> £40,000-£50,000 </span>
-	            </div>
-	            <div  class="lenged-item">
-	                <span style="width: 15px;height: 15px;background: #fd8d3c;margin-right: 10px;"></span>
-	                <span style="font-size: 16px;">£50,000-£60,000 </span>
-	            </div>
-	            <div  class="lenged-item">
-	                <span style="width: 15px;height: 15px;background: #fc4e2a;margin-right: 10px;"></span>
-	                <span style="font-size: 16px;"> £60,000-£70,000 </span>
-	            </div>
-	            <div  class="lenged-item">
-	                <span style="width: 15px;height: 15px;background: #e31a1c;margin-right: 10px;"></span>
-	                <span style="font-size: 16px;"> £70,000-£90,000 </span>
-	            </div>
-	            <div  class="lenged-item">
-	                <span style="width: 15px;height: 15px;background: #BD0026;margin-right: 10px;"></span>
-	                <span style="font-size: 16px;"> £90,000+</span>
-	            </div>
-	        </div>
-	        <a class="button scroll-btn" href="#footer">Population changes<span class="material-icons material-icons-outlined md-18">expand_more</span></a>
-	    </div>
-	</div>
+					<div class="map" id="income-change-map">
+						<!-- 3、 -->
+						<div class="lenged">
+							<div class="title">Legend</div>
+							<div class="lenged-item">
+								<span style="width: 15px;height: 15px;background: #fed976;margin-right: 10px;"></span>
+								<span style="font-size: 16px;">£20,000-£30,000</span>
+							</div>
+							<div  class="lenged-item">
+								<span style="width: 15px;height: 15px;background:#feb24c;margin-right: 10px;"></span>
+								<span style="font-size: 16px;">£30,000-£40,000 </span>
+							</div>
+							<div  class="lenged-item">
+								<span style="width: 15px;height: 15px;background: #feb24c;margin-right: 10px;"></span>
+								<span style="font-size: 16px;"> £40,000-£50,000 </span>
+							</div>
+							<div  class="lenged-item">
+								<span style="width: 15px;height: 15px;background: #fd8d3c;margin-right: 10px;"></span>
+								<span style="font-size: 16px;">£50,000-£60,000 </span>
+							</div>
+							<div  class="lenged-item">
+								<span style="width: 15px;height: 15px;background: #fc4e2a;margin-right: 10px;"></span>
+								<span style="font-size: 16px;"> £60,000-£70,000 </span>
+							</div>
+							<div  class="lenged-item">
+								<span style="width: 15px;height: 15px;background: #e31a1c;margin-right: 10px;"></span>
+								<span style="font-size: 16px;"> £70,000-£90,000 </span>
+							</div>
+							<div  class="lenged-item">
+								<span style="width: 15px;height: 15px;background: #BD0026;margin-right: 10px;"></span>
+								<span style="font-size: 16px;"> £90,000+</span>
+							</div>
+						</div>
+						<a class="button scroll-btn" href="#pop-map">Population changes<span class="material-icons material-icons-outlined md-18">expand_more</span></a>
+					</div>
+				</div>
 
-	<div id="footer">
-		<a href="#footer" onclick="show('reference-overlay')" class="button link-btn">References</a>
-		<a href="#" target="_blank" class="button link-btn">Github</a>
-		<div id="reference-overlay" onclick="hide('reference-overlay')" class="overlay">
-			<div id="reference-overlay-content" class="overlay-content">
-				<p class="emphasis">References</p>
-			</div>
-		</div>
-	</div>
+				<div class="divider" id="pop-map">
+					<p>Oscar's map will go here</p>
+				</div>
 
-	<!--libraries-->
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-		<!-- charts -->
-	<script charset="utf-8" src="https://d3js.org/d3.v4.min.js"></script>
-	<script src="https://code.highcharts.com/highcharts.js"></script>
-	<script src="https://code.highcharts.com/highcharts-more.js"></script>
-	<script src="https://code.highcharts.com/modules/exporting.js"></script>
-	<script src="https://code.highcharts.com/modules/export-data.js"></script>
-	<script src="https://code.highcharts.com/modules/accessibility.js"></script>
-	<script src="https://cdn.jsdelivr.net/npm/jstat@latest/dist/jstat.min.js"></script>
-		<!-- maps -->
-	<link href='https://api.mapbox.com/mapbox-gl-js/v2.1.1/mapbox-gl.css' rel='stylesheet' />
-    <script src='https://api.mapbox.com/mapbox-gl-js/v2.1.1/mapbox-gl.js'></script>
+				<div id="lq">
+					<div id="lq-map"></div>
+					<div class='lq-map-overlay' id='features'>
+						<div id='pd'><p><h3><strong>Hover over an area!</strong></p></div>
+					</div>
+					<div id='console'>
+							<h1>Location Quotients</h1>
+							<p>Data: <a href='https://data.cityofnewyork.us/Public-Safety/NYPD-Motor-Vehicle-Collisions/h9gi-nx95'>Crime in London by MSOA</a>, years 2008-2018</p>
+							<div id='pd'><p>Choropleths describe the Location Quotients of crimes in the area, as used in <a href='https://data.cityofnewyork.us/Public-Safety/NYPD-Motor-Vehicle-Collisions/h9gi-nx95'>Mapping Crime for Analytic Purposes, P. Brantingham</a> </p>
 
-	<!-- custom JS -->
-	<script src="script.js" type="text/javascript"></script>
+								<div class='session'>
+									<div class='session' id='sliderbar'>
+										<h2>Year <label id='active-year'>2008</label></h2>
+										<input id='lq-slider' class='row' type='range' min='2008' max='2018' step='1' value='2008' />
+									</div>
+								</div>
+								<div class='session'>
+									<h2>Type of crime:</h2>
+									<div class='row' id='filters'>
+										<input id='Total' type='radio' name='toggle' value='Total' checked='checked'>
+										<label for='Total'>Total</label>
+										<br />
+										<input id='Burglary' type='radio' name='toggle' value='Burglary'>
+										<label for='Burglary'>Burglary</label>
+										<br />
+										<input id='Criminal Damage' type='radio' name='toggle' value='Criminal Damage'>
+										<label for='Criminal Damage'>Criminal Damage</label>
+										<br />
+										<input id='Drugs' type='radio' name='toggle' value='Drugs'>
+										<label for='Drugs'>Drugs</label>
+										<br />
+										<input id='Robbery' type='radio' name='toggle' value='Robbery'>
+										<label for='Robbery'>Robbery</label>
+										<br />
+										<input id='Theft and Handling' type='radio' name='toggle' value='Theft and Handling'>
+										<label for='Theft and Handling'>Theft and Handling</label>
+										<br />
+										<input id='Violence Against the Person' type='radio' name='toggle' value='Violence Against the Person'>
+										<label for='Violence Against the Person'>Violence Against the Person</label>
+										<br />
+										<input id='Other Notifiable Offences' type='radio' name='toggle' value='Other Notifiable Offences'>
+										<label for='Other Notifiable Offences'>Other Notifiable Offence</label>
+									</div>
+								</div>
+								<nav id="listing-group" class="listing-group">
+									<input type="checkbox" id="showPoints" checked="checked">
+									<label for="showPoints">Show Crime Points</label>
+								</div>
+							</div>
+						</div class='lq-map-overlay' id='legend'></div>
+					</div>
 
-</body>
-</html>
+					<div id="footer">
+						<a href="#footer" onclick="show('reference-overlay')" class="button link-btn">References</a>
+						<a href="#" target="_blank" class="button link-btn">Github</a>
+						<div id="reference-overlay" onclick="hide('reference-overlay')" class="overlay">
+							<div id="reference-overlay-content" class="overlay-content">
+								<p class="emphasis">References</p>
+							</div>
+						</div>
+					</div>
+
+					<!--libraries-->
+					<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+					<!-- charts -->
+					<script charset="utf-8" src="https://d3js.org/d3.v4.min.js"></script>
+					<script src="https://code.highcharts.com/highcharts.js"></script>
+					<script src="https://code.highcharts.com/highcharts-more.js"></script>
+					<script src="https://code.highcharts.com/modules/exporting.js"></script>
+					<script src="https://code.highcharts.com/modules/export-data.js"></script>
+					<script src="https://code.highcharts.com/modules/accessibility.js"></script>
+					<script src="https://cdn.jsdelivr.net/npm/jstat@latest/dist/jstat.min.js"></script>
+
+					<!-- maps -->
+					<link href='https://api.mapbox.com/mapbox-gl-js/v2.1.1/mapbox-gl.css' rel='stylesheet' />
+					<script src='https://api.mapbox.com/mapbox-gl-js/v2.1.1/mapbox-gl.js'></script>
+					<script src='https://api.mapbox.com/mapbox.js/v3.3.1/mapbox.js'></script>
+					<link href='https://api.mapbox.com/mapbox.js/v3.3.1/mapbox.css' rel='stylesheet' />
+
+					<!-- custom JS -->
+					<script src="script.js" type="text/javascript"></script>
+
+				</body>
+				</html>
