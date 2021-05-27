@@ -79,7 +79,12 @@
 	<!-- income choropleth -->
 	<div id="income-change">
 		<div class="divider">
-			<p class="emphasis">Both areas saw significant increases in average income between 2008 and 2018.</p>
+			<p class="emphasis">Both areas saw significant increases in average income between 2008 and 2018. <a href="#income-change-overlay" onclick="show('income-change-overlay')"><span class="material-icons material-icons-outlined md-18">info</span></a></p>
+		</div>
+		<div id="income-change-overlay" class="overlay" onclick="hide('income-change-overlay')">
+			<div id="income-change-overlay-content" class="overlay-content">
+				<p class="emphasis">Data source</p>
+			</div>
 		</div>
 		<section id="services" class="services section-bg">
 	        <div class="slider" data-aos="fade-up" data-aos-delay="100">

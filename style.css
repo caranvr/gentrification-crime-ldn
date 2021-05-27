@@ -240,6 +240,7 @@ a:hover {
 #income-change {
   height: 100vh;
   padding-top: 3px;
+  position: relative;
 }
 
 #services {
