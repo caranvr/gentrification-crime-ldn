@@ -239,14 +239,15 @@ a:hover {
 /* income map */
 #income-change {
   height: 100vh;
+  padding-top: 3px;
 }
 
 #services {
-  height: 15vh;
+  height: 11vh;
 }
 
 .map {
-  height: 85vh;
+  height: 70vh;
   position: relative;
 }
 
@@ -300,8 +301,8 @@ a:hover {
 
 .map .scroll-btn {
   position: absolute;
-  margin-top: 75vh;
-  margin-left: 50%;
+  bottom: 20px;
+  left: 40%;
 }
 
 /* footer */
