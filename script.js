@@ -511,7 +511,7 @@ var lq_year = '2008';
       },
       paint: {
         'line-color': '#900C3F',
-        'line-width': 4
+        'line-width': 3
       },
       filter: ['==','NAME', '']
     });
