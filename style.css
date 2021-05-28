@@ -318,6 +318,72 @@ a:hover {
   font-weight: 300;
 }
 
+/* pop change map */
+#pop-change {
+  position: relative;
+  padding-top: 3px;
+}
+
+#pop-map { 
+  height: 70vh;
+  width: 100%;
+ }
+
+.pop-map-overlay {
+    position: absolute;
+    background-color: #31525B;
+    bottom: 30vh;
+    left: 20px;
+    width: 20%;
+    z-index: 9999;
+}
+
+.pop-map-overlay .pop-map-overlay-inner {
+    /*background-color: #fff;*/
+    box-shadow:0 1px 2px rgba(0, 0, 0, 0.20);
+    border-radius: 3px;
+    padding: 10px;
+    margin-bottom: 10px;
+}
+
+.pop-map-overlay table {
+    border: none;
+    width: 100%;
+}
+
+.pop-map-overlay h2 {
+    line-height: 24px;
+    display: block;
+    margin: 0 0 10px;
+}
+
+.pop-map-overlay label {
+    font: 16px/18px 'Helvetica Neue', Arial, Helvetica, sans-serif;
+    vertical-align: bottom;
+    margin: 0;
+    padding: 0;
+}
+
+.pop-map-overlay input {
+    display: inline;
+    vertical-align: middle;
+    margin: 5px;
+    padding: 0;
+}
+
+.pop-map-overlay p.credit {
+   margin: 5px 0 0 0;
+   padding: 0;
+}
+
+.overlay-scroll {
+  position: absolute;
+  bottom: 20px;
+  left: 40%;
+  z-index: 999;
+}
+
+
 /* LQ map */
       #lq h2,
       #lq h3 {
@@ -334,9 +400,7 @@ a:hover {
    text-align: left;
  }
 
-   /**
-   * Create a position for the map
-   * on the page */
+/* LQ map */
 #lq {
   position: relative;
 }

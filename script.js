@@ -24,11 +24,11 @@ $("a").on('click', function(event) {
   });
 
 //GENERAL FUNCTIONALITY: POPUP WINDOWS
-function show(overlay) {
+function showOverlay(overlay) {
   document.getElementById(overlay).style.display = "block";
 }
 
-function hide(overlay) {
+function hideOverlay(overlay) {
   document.getElementById(overlay).style.display = "none";
 }
 
@@ -264,7 +264,7 @@ mapboxgl.accessToken = 'pk.eyJ1IjoiaGhoMzU2ODciLCJhIjoiY2ttOTB2b3F5MTFjbTJwbXpyc
 
 var incMap = new mapboxgl.Map({
   container: 'income-change-map', // container id
-  style: 'mapbox://styles/hhh35687/ckoo1pdyo1s7217mzttk5td4q', // replace this with your style URL
+  style: 'mapbox://styles/hhh35687/ckp81xvsm1iaq18n4qurs6smq', // replace this with your style URL
   center: [-0.1, 51.49], // starting position [lng, lat]
   zoom: 9.7, // starting zoom
 });
@@ -303,6 +303,149 @@ function change() {
     incMap.setLayoutProperty(year, 'visibility', 'visible');
     document.getElementById('year').innerHTML = year;
   }  
+
+    var popMap = new mapboxgl.Map({
+    container: 'pop-map', // container id
+    style: 'mapbox://styles/keroroscar/ckou6k4iy419318mpwparhxdl', // map background layer location
+    center: [0, 51.5], // starting position [lng, lat]
+    zoom: 8, // starting zoom
+    pitch: 50 // tilt of the viewpoint in degrees
+    });
+
+
+    popMap.on('load', function() {
+      // Set global light properties which influence 3D layer shadows
+      popMap.setLight({color: "#fff", intensity: 0.15, position: [1.15, 210, 30]});
+      // Add standard navigation control
+      popMap.addControl(new mapboxgl.NavigationControl());
+
+    // Load the 3D population hexagon layer as a fill-extrusion type
+      popMap.addLayer({
+        id: 'EngWal_Hex_Res',
+        type: 'fill-extrusion',
+        source: {
+          type: 'vector',
+          url: 'mapbox://keroroscar.021y5h40' // Your Mapbox tileset Map ID
+        },
+        'source-layer': 'EngWal_Hex_ResEmp_20012011b-9mhp7y', // name of tileset
+        paint: {
+            'fill-extrusion-color': {
+                property: 'ResChange',
+                type: 'exponential',
+                stops: [
+                    [-3000, "#8c510a"],
+                    [-2000, "#bf812d"],
+                    [-1000, "#dfc27d"],
+                    [-500, "#f6e8c3"],
+                    [0, "#f5f5f5"],
+                    [500, "#c7eae5"],
+                    [2000, "#80cdc1"],
+                    [5000, "#35978f"],
+                    [8000, "#01665e"]]
+            },
+            'fill-extrusion-height': ['/', ['number', ['get', 'ResChange'], 2], 2],
+            'fill-extrusion-opacity': 0.7,  //Opacity set to zero
+            'fill-extrusion-opacity-transition': {
+                 duration: 1000,
+                 delay: 0
+             }
+            }
+      });
+
+    // Load the second 3D population hexagon layer. This layer has its opacity set to zero.
+      popMap.addLayer({
+        id: 'EngWal_Hex_Emp',
+        type: 'fill-extrusion',
+        source: {
+          type: 'vector',
+          url: 'mapbox://keroroscar.021y5h40' // Your Mapbox tileset Map ID
+        },
+        'source-layer': 'EngWal_Hex_ResEmp_20012011b-9mhp7y', // name of tileset
+        paint: {
+            'fill-extrusion-color': {
+                property: 'EmpChange',
+                type: 'exponential',
+                stops: [
+                    [-12000, "#4d4d4d"],
+                    [-6000, "#878787"],
+                    [-4000, "#bababa"],
+                    [-1000, "#e0e0e0"],
+                    [0, "#f5f5f5"],
+                    [1000, "#fddbc7"],
+                    [5000, "#f4a582"],
+                    [8000, "#d6604d"],
+                    [30000, "#b2182b"]]
+            },
+            'fill-extrusion-height': ['/', ['number', ['get', 'EmpChange'], 2], 2],
+            'fill-extrusion-opacity': 0.7,  //Opacity set to zero
+            'fill-extrusion-opacity-transition': {
+                 duration: 1000,
+                 delay: 0
+             }
+            }
+      });
+
+        
+//add to map.on('load') function
+    popMap.addSource('boroughs', {
+      type: 'vector',
+      url: 'mapbox://caranvr.97m3px18'
+    });
+
+    popMap.addLayer({                  
+      id: 'walt-brom-outline',
+      type: 'line',
+      source: 'boroughs',
+      'source-layer': 'boroughs_wgs84-b7y9u2',
+      'layout': {
+        'visibility': 'visible'
+      },
+      paint: {
+        'line-color': '#900C3F',
+        'line-width': 10
+      },
+      filter: ["any", ['==','NAME','Waltham Forest'], ['==', 'NAME', 'Bromley'], ['==', 'NAME', 'Tower Hamlets']]
+    });
+
+
+// Add the label layer
+  popMap.addLayer({
+    'id': 'labels',
+    'type': 'symbol',
+        source: {
+          type: 'vector',
+          url: 'mapbox://keroroscar.021y5h40' // Your Mapbox tileset Map ID
+        },
+    'source-layer': 'LabelCities2-6qmjf4', // name of tilesets
+    'layout': {
+      'text-field': '{Name2}',
+      'text-font': ['Open Sans Bold', 'Arial Unicode MS Bold'],
+      'text-size': 14
+    },
+    'paint': {
+      'text-color': 'rgba(0,0,0,0.8)',
+      'text-halo-color': '#fff',
+      'text-halo-width': 1
+    }
+  });
+        
+
+//Event listener for layer switch
+document.getElementById("layer1").addEventListener("click", function(){
+popMap.setPaintProperty('EngWal_Hex_Emp','fill-extrusion-opacity',0);
+popMap.setPaintProperty('EngWal_Hex_Res','fill-extrusion-opacity',0.95);
+});
+
+document.getElementById("layer2").addEventListener("click", function(){
+popMap.setPaintProperty('EngWal_Hex_Emp','fill-extrusion-opacity',0.95);
+popMap.setPaintProperty('EngWal_Hex_Res','fill-extrusion-opacity',0);
+});
+
+
+//Event listener for the zoom to buttons created using a for loop and switch case statement to set lat and long
+
+
+});
 
 //LQ MAP
 var lq_year = '2008';
@@ -562,7 +705,4 @@ var lq_year = '2008';
           });
 
     });
-
-
-
 

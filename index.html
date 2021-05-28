@@ -21,7 +21,7 @@
 		<div class="layer">
 			<div class="intro-text">
 				<h1>Gentrification and Crime</h1>
-				<h2>A case study of Walthamstow and Bromley, 2008–2018</h2>
+				<h2>A case study of Waltham Forest and Bromley</h2>
 				<a class="button scroll-btn" href="#background">
 					Start <span class="material-icons material-icons-outlined md-18">expand_more</span>
 				</a>
@@ -44,7 +44,7 @@
 			<p>Relative to the overall share of property crimes in London, burglary and theft are overrepresented in areas with higher average incomes. The opposite can be seen for violent crime, which is linked to socio-economic conditions in deprived areas; and drug-related offences, for which ethnic minorities — who are more likely to live in deprived areas — are over-prosecuted.</p>
 			<div class="custom-select">
 				<p class="font-400">Explore how the local concentration of each major crime category correlates with income.
-					<a href="#income-crime-overlay" onclick="show('income-crime-overlay')"><span class="material-icons material-icons-outlined md-18">info</span></a></p>
+					<a href="#income-crime-overlay" onclick="showOverlay('income-crime-overlay')"><span class="material-icons material-icons-outlined md-18">info</span></a></p>
 					<input type="button" class="button scatter-btn" value="Burglary" />
 					<input type="button" class="button scatter-btn" value="Criminal Damage" />
 					<input type="button" class="button scatter-btn" value="Drugs" />
@@ -53,7 +53,7 @@
 					<input type="button" class="button scatter-btn active" value="Violence Against the Person" />
 				</div>
 				<!-- info and sources for income crime plot -->
-				<div id="income-crime-overlay" onclick="hide('income-crime-overlay')" class="overlay">
+				<div id="income-crime-overlay" onclick="hideOverlay('income-crime-overlay')" class="overlay">
 					<div id="income-crime-sources" class="overlay-content">
 						<p class="emphasis">About the location quotient (LQ)</p>
 						<p>A measure of local concentration relative to a region, LQs are calculated for a certain crime category in an area. This measure is the ratio between the local share of crime in this category and the citywide share of crime in this category.</p>
@@ -79,9 +79,9 @@
 				<!-- income choropleth -->
 				<div id="income-change">
 					<div class="divider">
-						<p class="emphasis">Both boroughs saw significant increases in average income between 2008 and 2018. <a href="#income-change-overlay" onclick="show('income-change-overlay')"><span class="material-icons material-icons-outlined md-18">info</span></a></p>
+						<p class="emphasis">Both boroughs saw significant increases in average income between 2008 and 2018. <a href="#income-change-overlay" onclick="showOverlay('income-change-overlay')"><span class="material-icons material-icons-outlined md-18">info</span></a></p>
 					</div>
-					<div id="income-change-overlay" class="overlay" onclick="hide('income-change-overlay')">
+					<div id="income-change-overlay" class="overlay" onclick="hideOverlay('income-change-overlay')">
 						<div id="income-change-overlay-content" class="overlay-content">
 							<p>Data source: <a href="https://www.ons.gov.uk/peoplepopulationandcommunity/personalandhouseholdfinances/incomeandwealth/bulletins/smallareamodelbasedincomeestimates/financialyearending2018" target="_blank">Office for National Statistics</a></p>
 						</div>
@@ -140,33 +140,58 @@
 								<span style="font-size: 16px;"> £90,000+</span>
 							</div>
 						</div>
-						<a class="button scroll-btn" href="#pop-map">Population changes<span class="material-icons material-icons-outlined md-18">expand_more</span></a>
+						<a class="button scroll-btn" href="#pop-change">Population changes<span class="material-icons material-icons-outlined md-18">expand_more</span></a>
 					</div>
 				</div>
 
-				<div class="divider" id="pop-map">
-					<p>Oscar's map will go here</p>
+	
+
+	<div id="pop-change">
+		<div class="divider">
+		<p class="emphasis">Waltham Forest in particular saw increases in population density between 2001 and 2011, suggesting an influx of new residents — an indicator of gentrification.</p>
+	</div>
+		<div id='pop-map'></div>
+
+		<div class='pop-map-overlay'>
+    		<div class='pop-map-overlay-inner'>
+		        <h2>London Population Density - Employment Census 2001 - 2011 Comparison</h2>
+				<table><tr><td>
+		  		<input type="radio" name="layers" id="layer1" value="Population 2001" checked><label>Population Density change &nbsp; &nbsp;</label>
+		        <input type="radio" name="layers" id="layer2" value="Population 2011" ><label>Employment change  &nbsp; &nbsp;</label>
+		         </td>
+		         </tr>
+         		</table>
+         		<p class="credit">Data: Census 2011, Office for Nat. Statistics. Cartography: <a href="http://citygeographics.org">citygeographics</a>.</p>
+			</div>
+		</div>
+		<div class="overlay-scroll">
+			<a class="button scroll-btn" href="#lq-text">Crime and income changes<span class="material-icons material-icons-outlined md-18">expand_more</span></a>
+		</div>
+	</div>
+
+	<div class="divider" id="lq-text">
+		<p>Alina's text goes here</p>
+	</div>
+
+	<div id="lq">
+		<div id="lq-map"></div>
+		<div class='lq-map-overlay' id='features'>
+			<div id='pd'><p><h3><strong>Hover over an area!</strong></p></div>
+		</div>
+		<div id='console'>
+			<h1>Location Quotients</h1>
+			<p>Data: <a href='https://data.cityofnewyork.us/Public-Safety/NYPD-Motor-Vehicle-Collisions/h9gi-nx95'>Crime in London by MSOA</a>, years 2008-2018</p>
+			<div id='pd'><p>Choropleths describe the Location Quotients of crimes in the area, as used in <a href='https://data.cityofnewyork.us/Public-Safety/NYPD-Motor-Vehicle-Collisions/h9gi-nx95'>Mapping Crime for Analytic Purposes, P. Brantingham</a> </p>
+
+			<div class='session'>
+				<div class='session' id='sliderbar'>
+					<h2>Year <label id='active-year'>2008</label></h2>
+					<input id='lq-slider' class='row' type='range' min='2008' max='2018' step='1' value='2008' />
 				</div>
-
-				<div id="lq">
-					<div id="lq-map"></div>
-					<div class='lq-map-overlay' id='features'>
-						<div id='pd'><p><h3><strong>Hover over an area!</strong></p></div>
-					</div>
-					<div id='console'>
-							<h1>Location Quotients</h1>
-							<p>Data: <a href='https://data.cityofnewyork.us/Public-Safety/NYPD-Motor-Vehicle-Collisions/h9gi-nx95'>Crime in London by MSOA</a>, years 2008-2018</p>
-							<div id='pd'><p>Choropleths describe the Location Quotients of crimes in the area, as used in <a href='https://data.cityofnewyork.us/Public-Safety/NYPD-Motor-Vehicle-Collisions/h9gi-nx95'>Mapping Crime for Analytic Purposes, P. Brantingham</a> </p>
-
-								<div class='session'>
-									<div class='session' id='sliderbar'>
-										<h2>Year <label id='active-year'>2008</label></h2>
-										<input id='lq-slider' class='row' type='range' min='2008' max='2018' step='1' value='2008' />
-									</div>
-								</div>
-								<div class='session'>
-									<h2>Type of crime:</h2>
-									<div class='row' id='filters'>
+			</div>
+			<div class='session'>
+				<h2>Type of crime:</h2>
+				<div class='row' id='filters'>
 										<input id='Total' type='radio' name='toggle' value='Total' checked='checked'>
 										<label for='Total'>Total</label>
 										<br />
@@ -190,20 +215,20 @@
 										<br />
 										<input id='Other Notifiable Offences' type='radio' name='toggle' value='Other Notifiable Offences'>
 										<label for='Other Notifiable Offences'>Other Notifiable Offence</label>
-									</div>
-								</div>
-								<nav id="listing-group" class="listing-group">
-									<input type="checkbox" id="showPoints" checked="checked">
-									<label for="showPoints">Show Crime Points</label>
-								</div>
-							</div>
+				</div>
+			</div>
+			<nav id="listing-group" class="listing-group">
+				<input type="checkbox" id="showPoints" checked="checked">
+				<label for="showPoints">Show Crime Points</label>
+		</div>
+		</div>
 						</div class='lq-map-overlay' id='legend'></div>
 					</div>
 
 					<div id="footer">
-						<a href="#footer" onclick="show('reference-overlay')" class="button link-btn">References</a>
+						<a href="#footer" onclick="showOverlay('reference-overlay')" class="button link-btn">References</a>
 						<a href="#" target="_blank" class="button link-btn">Github</a>
-						<div id="reference-overlay" onclick="hide('reference-overlay')" class="overlay">
+						<div id="reference-overlay" onclick="hideOverlay('reference-overlay')" class="overlay">
 							<div id="reference-overlay-content" class="overlay-content">
 								<p class="emphasis">References</p>
 							</div>
