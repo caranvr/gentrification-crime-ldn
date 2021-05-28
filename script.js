@@ -496,6 +496,26 @@ var lq_year = '2008';
         'url': 'mapbox://zcqsapi.avgvs00f'
       });
 
+      map.addSource('boroughs', {
+      type: 'vector',
+      url: 'mapbox://caranvr.97m3px18'
+    });
+
+    map.addLayer({                  
+      id: 'walt-brom-outline',
+      type: 'line',
+      source: 'boroughs',
+      'source-layer': 'boroughs_wgs84-b7y9u2',
+      'layout': {
+        'visibility': 'visible'
+      },
+      paint: {
+        'line-color': '#900C3F',
+        'line-width': 4
+      },
+      filter: ['==','NAME', '']
+    });
+
       map.addLayer({
         'id': var_name,
         'source': 'lq',
@@ -725,5 +745,29 @@ var lq_year = '2008';
           }
           });
 
-    });
+      //fly to buttons
+      var flyBtns = document.getElementsByClassName('lq-map-btn');
+      var counter;
+      for (counter = 0; counter < flyBtns.length; counter++) {
+        flyBtns[counter].addEventListener('click', function(e) {
+
+          var lqLat,lqLong;
+
+          //outline selected boroughs
+          map.setFilter('walt-brom-outline', ['==', 'NAME', e.target.value]);
+
+          switch(e.target.value) {
+            case "Waltham Forest": lqLong=-0.0333; lqLat=51.598; break;
+            case "Bromley": lqLong=0.0701; lqLat=51.3680; break;
+          }
+
+        map.flyTo({
+          center: [lqLong,lqLat],
+          zoom: 11,
+          speed: 0.3,
+          });
+      });
+    }
+
+  });
 

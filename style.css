@@ -91,11 +91,15 @@ a:hover {
   border: 1px solid rgba(255, 255, 255, 1)
 }
 
-.active, .scatter-btn:hover, .link-btn:hover {
+.active, .scatter-btn:hover, .link-btn:hover, .lq-map-btn:hover {
   background-color: rgba(255,161,1,1);
   border: 1px solid rgba(255,161,1,1);
   color: #31525B;
   font-weight: 400;
+}
+
+.lq-map-btn {
+  font-size: 12px;
 }
 
 .material-icons {
@@ -507,6 +511,10 @@ a:hover {
 
 #lq p {
   font-size: 14px;
+}
+
+#fly-buttons h2 {
+  margin-bottom: 2px;
 }
 
 
