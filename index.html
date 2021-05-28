@@ -29,9 +29,10 @@
 		</div>
 	</div>
 
+	<a class="button top-btn" id="scroll-top" href="#intro"><span class="material-icons material-icons-outlined md-18">expand_less</span></a>
 	<!-- background -->
 	<div id="background">
-		<!-- h3>Background</h3 -->
+
 		<p class="emphasis">In London, different neighbourhoods show "specialisation" in different types of crime.</p>
 		<p>Compared to the citywide average, some neighbourhoods have higher proportions of crime classified as violent, while others have higher proportions of burglaries or thefts. Criminological research suggests that the type of crime a neighbourhood is specialised in is related to its average income: a relationship that holds true for London.</p>
 	</div>
@@ -154,9 +155,9 @@
 
 		<div class='pop-map-overlay'>
     		<div class='pop-map-overlay-inner'>
-		        <h2>London Population Density - Employment Census 2001 - 2011 Comparison</h2>
+		        <h2>London Population Density and Employment<br>Census 2001 - 2011 Comparison</h2>
 				<table><tr><td>
-		  		<input type="radio" name="layers" id="layer1" value="Population 2001" checked><label>Population Density change &nbsp; &nbsp;</label>
+		  		<input type="radio" name="layers" id="layer1" value="Population 2001" checked><label>Population Density change &nbsp; &nbsp;</label><br>
 		        <input type="radio" name="layers" id="layer2" value="Population 2011" ><label>Employment change  &nbsp; &nbsp;</label>
 		         </td>
 		         </tr>
@@ -169,12 +170,31 @@
 		</div>
 	</div>
 
-	<div class="divider" id="lq-text">
-		<p>Alina's text goes here</p>
+	<div id="lq-text">
+		<div class="divider annotations">
+			<p class="emphasis">In Waltham Forest and Bromley, changes in resident population counts and demographics have occurred alongside shifts in the types of crimes that are concentrated in these areas, as measured by changes in the <a href="#lq-overlay" onclick="showOverlay('lq-overlay')">location quotients</a> (LQs) for different crime types.</p>
+			<p><span class="font-400">Burglary LQs</span> decreased between 2008 and 2018. This could be because of the increased security installed by new, high-economic status arrivals in the area, and new and well-developed, secure estates built within the 10 years.</p>
+			<p><span class="font-400">Theft LQs</span> show a significant increase, accompanied by decreases in theft LQs for nearby areas. This could be dependent on the relative difference in economic and social status between new and existing residents, and hence increased opportunity for criminal behaviour.</p>
+			<p>Similar trends can be seen when looking at LQs of assault and robbery. Although those are observations in line with Autor (2017a), Autor (2017b) has stated that those are temporary changes in the gentrified area and only occur during the transitional period of gentrification.</p>
+			<p class="font-400">Explore how LQs for different crime types changed between 2008 and 2018.</p>
+			<a class="button scroll-btn" href="#lq">View map<span class="material-icons material-icons-outlined md-18">expand_more</span></a>
+		</div>
+		<div id="lq-overlay" onclick="hideOverlay('lq-overlay')" class="overlay">
+			<div class="overlay-content">
+				<p class="emphasis">About the location quotient (LQ)</p>
+				<p>A measure of local concentration relative to a region, LQs are calculated for a certain crime category in an area. This measure is the ratio between the local share of crime in this category and the citywide share of crime in this category.</p>
+				<p>An LQ equal to 1 indicates that the local proportion of crime in a category is equal to the citywide share of crime in that category. An LQ more than 1 indicates that crime is locally overrepresented relative to its share of citywide crime, while an LQ less than 1 shows that crime is locally underrepresented.</p>
+				<p>In this map, LQs are calculated based on Middle-Layer Super Output Areas (MSOAs) and Metropolitan Police major crime categories.</p>
+			</div>
+		</div>
 	</div>
+
 
 	<div id="lq">
 		<div id="lq-map"></div>
+		<div class="overlay-scroll">
+			<a class="button scroll-btn" href="#footer">About this site<span class="material-icons material-icons-outlined md-18">expand_more</span></a>
+		</div>
 		<div class='lq-map-overlay' id='features'>
 			<div id='pd'><p><h3><strong>Hover over an area!</strong></p></div>
 		</div>
@@ -222,10 +242,12 @@
 				<label for="showPoints">Show Crime Points</label>
 		</div>
 		</div>
-						</div class='lq-map-overlay' id='legend'></div>
-					</div>
+		</div class='lq-map-overlay' id='legend'></div>
+	</div>
 
 					<div id="footer">
+						<h3>About</h3>
+						<p>Created by Cara Navarro, Alina Pietruszewicz, Jiaxi Tang, and Haihua Huang</p>
 						<a href="#footer" onclick="showOverlay('reference-overlay')" class="button link-btn">References</a>
 						<a href="#" target="_blank" class="button link-btn">Github</a>
 						<div id="reference-overlay" onclick="hideOverlay('reference-overlay')" class="overlay">
